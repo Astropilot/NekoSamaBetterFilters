@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "Neko-Sama Filtres",
+    "version": "1.0",
+    "description": "Des filtres de recherche fonctionnels !",
+    "author": "Yohann Martin",
+    "homepage_url": "http://github.com/Astropilot/neko_sama_filters",
+    "icons": {
+        "32": "images/icon-32x32.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.neko-sama.fr/anime*"],
+            "run_at": "document_start",
+            "js": ["hijacking.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        "better-filters.js"
+    ]
+}
