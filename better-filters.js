@@ -11,6 +11,67 @@
 * license information.
 *******************************************************************************/
 
+const yearSortingMenu = `
+    <div data-value="year_desc" class="item text-uppercase">
+        Année <small>+ au -</small>
+    </div>
+    <div data-value="year_asc" class="item text-uppercase">
+        Année <small>- au +</small>
+    </div>
+`;
+
+const yearFilter = `
+    <div class="item">
+        <p class="title">Année</p>
+        <div id="year-dropdown" data-filter="year" class="ui dropdown fluid button uppercase" tabindex="0">
+            <span class="text text-uppercase">TOUTES</span> <i class="dropdown icon"></i>
+            <div class="menu uppercase transition hidden" tabindex="-1">
+                <div data-value="null" class="item active selected">TOUTES</div>
+                <div data-value="2020" class="item text-uppercase">2020</div>
+                <div data-value="2019" class="item text-uppercase">2019</div>
+                <div data-value="2018" class="item text-uppercase">2018</div>
+            </div>
+        </div>
+    </div>
+`;
+
+$(document).ready(function () {
+
+    // Ajout des filtres supplémentaires
+    $('#sort-dropdown > .menu').append(yearSortingMenu);
+    $('#filters > .item.genres').before(yearFilter);
+
+    // Suppression de la partie legacy (On force le full ajax)
+    $('.nekosama-animes').remove();
+    $('#regular-pagination-wrapper').remove();
+
+    // Genres Pop Out
+    $('.genres .button').click(function () {
+        if ($('.genres-pop-out').is(':visible')) {
+            $('.genres-pop-out').css('display', 'none');
+        } else {
+            $('.genres-pop-out').css('display', 'block');
+        }
+    })
+
+    $('.genres-pop-out .item').click(function () {
+        $(this).toggleClass('active');
+    });
+
+    // Paginate
+    $(document).on('click', 'a[data-page]:not(.disabled)', function () {
+        $(window).scrollTop(0);
+    });
+
+    // Dropdown filter
+    $('.ui.dropdown').dropdown({
+        onChange: function(value, text, $selectedItem) {
+
+        }
+    });
+});
+
+/*
 var myLazyLoad = new LazyLoad();
 var urlsearch = "/animes-search.json?gkeorgkeogkccc";
 var idx = null;
@@ -208,3 +269,4 @@ $(document).ready(function () {
         applyFilterAnime(getFilters(window.location.hash));
     }
 });
+*/
