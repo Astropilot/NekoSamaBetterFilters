@@ -12,9 +12,9 @@ jobs:
     - uses: actions/checkout@master
 
     - name: Docker Build Image
-      run: docker build -t docker.pkg.github.com/astropilot/nekosama/webapi -f webapi/Dockerfile webapi/.
+      run: docker build -t docker.pkg.github.com/astropilot/nekosamabetterfilters/webapi -f webapi/Dockerfile webapi/.
 
     - name: Push Image
       run: |
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u Astropilot --password-stdin docker.pkg.github.com
-        docker push docker.pkg.github.com/astropilot/nekosama/webapi
+        docker push docker.pkg.github.com/astropilot/nekosamabetterfilters/webapi
