@@ -1,7 +1,7 @@
 import re
 from flask import request
 from flask_restful import Resource
-from sqlalchemy import or_, all_
+from sqlalchemy import or_
 
 from ..models.anime import Anime, AnimeGenre, animes_schema
 
@@ -52,7 +52,12 @@ class AnimeListResource(Resource):
 
         if search is not None:
             searches = re.split(r'[\s\-]+', search.lower())
-            columns = [Anime.title, Anime.title_english, Anime.title_romanji, Anime.others]
+            columns = [
+                Anime.title,
+                Anime.title_english,
+                Anime.title_romanji,
+                Anime.others
+            ]
             search_args = []
             for s in searches:
                 search_args.extend([col.like(f'%{s}%') for col in columns])
@@ -75,9 +80,15 @@ class AnimeListResource(Resource):
 
         if len(genres) > 0:
             for genre in genres:
-                animes = animes.filter(Anime.genres.any(AnimeGenre.name == genre))
+                animes = animes.filter(
+                    Anime.genres.any(AnimeGenre.name == genre)
+                )
 
-        animes = animes.order_by(getattr(getattr(Anime, sort_by), sort_dir)())
+        animes = animes.order_by(
+            getattr(getattr(Anime, sort_by), sort_dir)(),
+            Anime.score.desc(),
+            Anime.popularity.desc()
+        )
         animes = animes.paginate(page, perPage, error_out=False)
 
         animes_dump = animes_schema.dump(animes.items)

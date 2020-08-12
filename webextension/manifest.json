@@ -8,15 +8,21 @@
     "icons": {
         "32": "images/icon-32x32.png"
     },
+    "permissions": ["webRequest", "webRequestBlocking", "*://*.neko-sama.fr/js/nekosama-libs.js*"],
+    "background": {
+        "scripts": ["filtering.js"]
+    },
     "content_scripts": [
         {
             "matches": ["https://www.neko-sama.fr/anime*"],
             "run_at": "document_start",
-            "js": ["hijacking.js"]
+            "js": ["hijacking.js"],
+            "css": ["style.css"]
         }
     ],
     "web_accessible_resources": [
         "better-filters.js",
+        "nekosama-libs.js",
         "template.html"
     ]
 }

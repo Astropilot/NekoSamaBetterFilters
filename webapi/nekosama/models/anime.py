@@ -1,11 +1,20 @@
-from marshmallow import fields
 from .base import db, ma
 
 
 genres = db.Table(
     'genres',
-    db.Column('genre_id', db.Integer, db.ForeignKey('animes_genres.id'), primary_key=True),
-    db.Column('anime_id', db.Integer, db.ForeignKey('animes.id'), primary_key=True)
+    db.Column(
+        'genre_id',
+        db.Integer,
+        db.ForeignKey('animes_genres.id'),
+        primary_key=True
+    ),
+    db.Column(
+        'anime_id',
+        db.Integer,
+        db.ForeignKey('animes.id'),
+        primary_key=True
+    )
 )
 
 
@@ -25,7 +34,12 @@ class Anime(db.Model):
     score = db.Column(db.Float, nullable=False)
     start_date_year = db.Column(db.Integer, nullable=True)
     nb_eps = db.Column(db.String(25), nullable=False)
-    genres = db.relationship('AnimeGenre', secondary=genres, lazy='subquery', backref=db.backref('animes', lazy=True))
+    genres = db.relationship(
+        'AnimeGenre',
+        secondary=genres,
+        lazy='subquery',
+        backref=db.backref('animes', lazy=True)
+    )
 
 
 class AnimeGenre(db.Model):

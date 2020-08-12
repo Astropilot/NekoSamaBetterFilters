@@ -3,7 +3,7 @@ import os
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
-from .populate import populate_animes
+from .populate import populate_genres, populate_animes
 # scheduler = APScheduler()
 
 
@@ -12,7 +12,7 @@ def create_app():
     app.config.from_pyfile('config.py')
 
     try:
-        os.makedirs(app.config['TMP_FOLDER'])
+        os.makedirs(app.config['DATABASE_FOLDER'])
     except OSError:
         pass
 
@@ -20,6 +20,7 @@ def create_app():
     models.init_app(app)
 
     app.cli.add_command(populate_animes)
+    app.cli.add_command(populate_genres)
 
     CORS(app, origins='https://www.neko-sama.fr/*')
 

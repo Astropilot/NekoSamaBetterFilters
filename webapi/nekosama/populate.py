@@ -6,21 +6,37 @@ from .models.base import db
 from .models.anime import Anime, AnimeGenre
 
 
-EXCLUDE_GENRE_ATTR = {
-    'id',
-    'title',
-    'title_english',
-    'title_romanji',
-    'others',
-    'type',
-    'status',
-    'popularity',
-    'url',
-    'url_image',
-    'score',
-    'start_date_year',
-    'nb_eps'
+GENRES = {
+    'Action',
+    'Adventure',
+    'Comedy',
+    'Drama',
+    'Ecchi',
+    'Fantasy',
+    'Hentai',
+    'Horror',
+    'Mahou Shoujo',
+    'Mecha',
+    'Music',
+    'Mystery',
+    'Psychological',
+    'Romance',
+    'Sci-Fi',
+    'Slice of Life',
+    'Sports',
+    'Supernatural',
+    'Thriller'
 }
+
+
+@click.command('populate-genres')
+@with_appcontext
+def populate_genres():
+    for g in GENRES:
+        genre = AnimeGenre(name=g)
+        db.session.add(genre)
+    db.session.commit()
+    click.echo('Database populated!')
 
 
 @click.command('populate-animes')
@@ -30,7 +46,7 @@ def populate_animes():
     animes = r.json()
 
     for a in animes:
-        attributes = [x for x in a.keys() if x not in EXCLUDE_GENRE_ATTR]
+        attributes = [x for x in a.keys() if x in GENRES]
         genres = AnimeGenre.query.filter(AnimeGenre.name.in_(attributes)).all()
 
         try:

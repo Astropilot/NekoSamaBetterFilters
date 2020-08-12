@@ -1,0 +1,17 @@
+.nekosama.pagination span {
+    cursor: pointer;
+}
+
+.nekosama.pagination li.disabled, .nekosama.pagination li.disabled:hover, .nekosama.pagination li > span.ellipse {
+    opacity: 0.4;
+}
+
+.nekosama.pagination li:hover span {
+    color: #f9f9f9;
+}
+
+.nekosama.pagination li.active span {
+    border-radius: 100%;
+    color: #f9f9f9 !important;
+    background-color: #221f1f;
+}

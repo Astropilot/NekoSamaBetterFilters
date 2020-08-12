@@ -13,6 +13,10 @@
 
 // Source: https://stackoverflow.com/a/59518023
 
+var hijackCounter = 0;
+
+chrome.runtime.sendMessage({block: 'libs'});
+
 new MutationObserver((mutations, observer) => {
     for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
@@ -22,7 +26,8 @@ new MutationObserver((mutations, observer) => {
                     request.open('GET', chrome.runtime.getURL('better-filters.js'), false);
                     request.send();
 
-                    addedNode.textContent = request.responseText;
+                    addedNode.textContent = request.responseText.replace('%LIBS_URL%', chrome.runtime.getURL('nekosama-libs.js'));
+                    hijackCounter++;
                 }
             } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
                 const request = new XMLHttpRequest();
@@ -30,9 +35,12 @@ new MutationObserver((mutations, observer) => {
                 request.send();
 
                 addedNode.textContent = request.responseText;
-                observer.disconnect();
-                return;
+                hijackCounter++;
             }
+        }
+        if (hijackCounter === 2) {
+            observer.disconnect();
+            return;
         }
     }
 })
