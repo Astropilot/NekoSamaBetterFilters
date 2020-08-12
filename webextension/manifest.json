@@ -8,7 +8,7 @@
     "icons": {
         "32": "images/icon-32x32.png"
     },
-    "permissions": ["webRequest", "webRequestBlocking", "*://*.neko-sama.fr/js/nekosama-libs.js*"],
+    "permissions": ["webRequest", "webRequestBlocking", "tabs", "*://*.neko-sama.fr/*"],
     "background": {
         "scripts": ["filtering.js"]
     },

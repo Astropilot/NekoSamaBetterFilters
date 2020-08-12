@@ -15,8 +15,6 @@
 
 var hijackCounter = 0;
 
-chrome.runtime.sendMessage({block: 'libs'});
-
 new MutationObserver((mutations, observer) => {
     for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
@@ -26,7 +24,7 @@ new MutationObserver((mutations, observer) => {
                     request.open('GET', chrome.runtime.getURL('better-filters.js'), false);
                     request.send();
 
-                    addedNode.textContent = request.responseText.replace('%LIBS_URL%', chrome.runtime.getURL('nekosama-libs.js'));
+                    addedNode.textContent = request.responseText;
                     hijackCounter++;
                 }
             } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
