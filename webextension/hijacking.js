@@ -16,16 +16,22 @@
 new MutationObserver((mutations, observer) => {
     for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
-            if (addedNode.nodeType === 1 && addedNode.matches('script:not([src])')) {
+            if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([id])')) {
                 if (addedNode.textContent.includes('myLazyLoad')) {
                     const request = new XMLHttpRequest();
                     request.open('GET', chrome.runtime.getURL('better-filters.js'), false);
                     request.send();
 
                     addedNode.textContent = request.responseText;
-                    observer.disconnect();
-                    return;
                 }
+            } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
+                const request = new XMLHttpRequest();
+                request.open('GET', chrome.runtime.getURL('template.html'), false);
+                request.send();
+
+                addedNode.textContent = request.responseText;
+                observer.disconnect();
+                return;
             }
         }
     }

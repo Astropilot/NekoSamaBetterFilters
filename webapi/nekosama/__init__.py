@@ -2,6 +2,7 @@ import os
 # from flask_apscheduler import APScheduler
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 from .populate import populate_animes
 # scheduler = APScheduler()
 
@@ -19,6 +20,8 @@ def create_app():
     models.init_app(app)
 
     app.cli.add_command(populate_animes)
+
+    CORS(app, origins='https://www.neko-sama.fr/*')
 
     from .api import api_bp
     api = Api(api_bp, catch_all_404s=True)
