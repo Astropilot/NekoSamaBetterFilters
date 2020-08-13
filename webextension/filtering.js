@@ -1,3 +1,16 @@
+/*******************************************************************************
+* PROJECT: Neko-Sama Better Filters
+*
+* AUTHORS: Yohann Martin
+*
+* DATE: 2020
+*
+* Copyright (c) 2019 Yohann MARTIN (@Astropilot). All rights reserved.
+*
+* Licensed under the MIT License. See LICENSE file in the project root for full
+* license information.
+*******************************************************************************/
+
 const tabData = {};
 
 function recordFrame(tabId, frameId, frameUrl) {

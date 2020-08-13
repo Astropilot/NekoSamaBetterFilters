@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
-    "name": "Neko-Sama Filtres",
+    "name": "Neko-Sama Filtres Fixer",
     "version": "1.0",
-    "description": "Des filtres de recherche fonctionnels !",
+    "description": "Une extension qui corrige et rend pleinement fonctionnelle la page d'animes de Neko-sama.fr",
     "author": "Yohann Martin",
-    "homepage_url": "http://github.com/Astropilot/neko_sama_filters",
+    "homepage_url": "https://github.com/Astropilot/NekoSamaBetterFilters",
     "icons": {
         "32": "images/icon-32x32.png"
     },
