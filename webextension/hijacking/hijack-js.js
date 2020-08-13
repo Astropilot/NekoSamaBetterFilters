@@ -1,27 +1,13 @@
-/*******************************************************************************
-* PROJECT: Neko-Sama Better Filters
-*
-* AUTHORS: Yohann Martin
-*
-* DATE: 2020
-*
-* Copyright (c) 2019 Yohann MARTIN (@Astropilot). All rights reserved.
-*
-* Licensed under the MIT License. See LICENSE file in the project root for full
-* license information.
-*******************************************************************************/
-
-// Source: https://stackoverflow.com/a/59518023
-
 var hijackCounter = 0;
 
+// Source: https://stackoverflow.com/a/59518023
 new MutationObserver((mutations, observer) => {
     for (const mutation of mutations) {
         for (const addedNode of mutation.addedNodes) {
             if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([id])')) {
                 if (addedNode.textContent.includes('myLazyLoad')) {
                     const request = new XMLHttpRequest();
-                    request.open('GET', chrome.runtime.getURL('better-filters.js'), false);
+                    request.open('GET', chrome.runtime.getURL('animes/better-filters.js'), false);
                     request.send();
 
                     addedNode.textContent = request.responseText;
@@ -29,7 +15,7 @@ new MutationObserver((mutations, observer) => {
                 }
             } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
                 const request = new XMLHttpRequest();
-                request.open('GET', chrome.runtime.getURL('template.html'), false);
+                request.open('GET', chrome.runtime.getURL('animes/template.html'), false);
                 request.send();
 
                 addedNode.textContent = request.responseText;

@@ -1,6 +1,6 @@
 FROM python:3.7
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential gcc g++ python3-dev musl-dev curl libxslt-dev openssl
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential postgresql gcc g++ python3-dev musl-dev curl libxslt-dev openssl
 
 RUN mkdir /code
 WORKDIR /code

@@ -22,10 +22,10 @@ class Anime(db.Model):
     __tablename__ = 'animes'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255), nullable=False)
-    title_english = db.Column(db.String(255), nullable=False)
-    title_romanji = db.Column(db.String(255), nullable=True)
-    others = db.Column(db.String(255), nullable=False)
+    title = db.Column(db.Text(), nullable=False)
+    title_english = db.Column(db.Text(), nullable=False)
+    title_romanji = db.Column(db.Text(), nullable=True)
+    others = db.Column(db.Text(), nullable=False)
     type = db.Column(db.String(25), nullable=False)
     status = db.Column(db.Integer, nullable=False)
     popularity = db.Column(db.Float, nullable=False)

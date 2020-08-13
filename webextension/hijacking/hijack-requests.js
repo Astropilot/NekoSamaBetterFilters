@@ -1,16 +1,3 @@
-/*******************************************************************************
-* PROJECT: Neko-Sama Better Filters
-*
-* AUTHORS: Yohann Martin
-*
-* DATE: 2020
-*
-* Copyright (c) 2019 Yohann MARTIN (@Astropilot). All rights reserved.
-*
-* Licensed under the MIT License. See LICENSE file in the project root for full
-* license information.
-*******************************************************************************/
-
 const tabData = {};
 
 function recordFrame(tabId, frameId, frameUrl) {
@@ -44,9 +31,9 @@ chrome.webRequest.onBeforeRequest.addListener(
 
         const tabUrl = getUrlForTab(details.tabId);
 
-        if (tabUrl && tabUrl === 'https://www.neko-sama.fr/anime') {
-            if (details.url.includes('https://www.neko-sama.fr/js/nekosama-libs.js'))
-                return { redirectUrl: chrome.runtime.getURL('nekosama-libs.js') };
+        if (tabUrl && tabUrl.endsWith('/anime')) {
+            if (details.url.startsWith('https://www.neko-sama.fr/js/nekosama-libs.js'))
+                return { redirectUrl: chrome.runtime.getURL('vendors/nekosama-libs.js') };
         }
 
         return {};

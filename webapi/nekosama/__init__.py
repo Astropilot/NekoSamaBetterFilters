@@ -1,20 +1,12 @@
-import os
-# from flask_apscheduler import APScheduler
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
 from .populate import populate_genres, populate_animes
-# scheduler = APScheduler()
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
-
-    try:
-        os.makedirs(app.config['DATABASE_FOLDER'])
-    except OSError:
-        pass
 
     from . import models
     models.init_app(app)
@@ -33,11 +25,4 @@ def create_app():
 
     app.register_blueprint(api_bp, url_prefix='/api')
 
-    # scheduler.init_app(app)
-    # scheduler.start()
-
-    try:
-        return app
-    except:
-        pass
-        # scheduler.shutdown()
+    return app

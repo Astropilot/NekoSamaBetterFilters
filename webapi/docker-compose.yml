@@ -1,7 +1,15 @@
 version: '3.1'
 
 services:
-  back:
+  nekosamadb:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: "nekosama"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    network_mode: bridge
+    volumes:
+      - nekosamadbdata:/var/lib/postgresql/data
+  webapi:
     build: .
     tty: true
     command: python serve.py
@@ -9,6 +17,9 @@ services:
     volumes:
       - .:/code
     ports:
-      - 5000:5000
-    environment:
-      - FLASK_APP=nekosama
+      - 8000:8000
+    links:
+      - nekosamadb
+
+volumes:
+  nekosamadbdata:

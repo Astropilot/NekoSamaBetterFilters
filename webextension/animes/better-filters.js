@@ -1,17 +1,3 @@
-/*******************************************************************************
-* PROJECT: Neko-Sama Better Filters
-*
-* AUTHORS: Yohann Martin
-*
-* DATE: 2020
-*
-* Copyright (c) 2019 Yohann MARTIN (@Astropilot). All rights reserved.
-*
-* Licensed under the MIT License. See LICENSE file in the project root for full
-* license information.
-*******************************************************************************/
-
-
 const yearSortingMenu = `
     <div data-value="start_date_year_desc" class="item text-uppercase">
         Année <small>+ au -</small>
@@ -52,7 +38,7 @@ function updateFilter(filter, value) {
 }
 
 function fetchAnimes() {
-    $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), function (data) {
+    $.getJSON('http://localhost:5000/api/animes', filters.toString(), function (data) {
 
         $("#ajax-list-animes").loadTemplate($("#template"), data.animes, {
             complete: function() {

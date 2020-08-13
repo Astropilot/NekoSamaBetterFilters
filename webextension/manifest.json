@@ -1,28 +1,33 @@
 {
     "manifest_version": 2,
-    "name": "Neko-Sama Filtres Fixer",
+    "name": "Refined Neko-Sama.fr",
     "version": "1.0",
-    "description": "Une extension qui corrige et rend pleinement fonctionnelle la page d'animes de Neko-sama.fr",
+    "description": "Une extension qui corrige et rend pleinement fonctionnelle la page d'animes de Neko-Sama.fr",
     "author": "Yohann Martin",
     "homepage_url": "https://github.com/Astropilot/NekoSamaBetterFilters",
     "icons": {
         "32": "images/icon-32x32.png"
     },
-    "permissions": ["webRequest", "webRequestBlocking", "tabs", "*://*.neko-sama.fr/*"],
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "tabs",
+        "*://*.neko-sama.fr/*"
+    ],
     "background": {
-        "scripts": ["filtering.js"]
+        "scripts": ["hijacking/hijack-requests.js"]
     },
     "content_scripts": [
         {
             "matches": ["https://www.neko-sama.fr/anime*"],
             "run_at": "document_start",
-            "js": ["hijacking.js"],
-            "css": ["style.css"]
+            "js": ["hijacking/hijack-js.js"],
+            "css": ["css/style.css"]
         }
     ],
     "web_accessible_resources": [
-        "better-filters.js",
-        "nekosama-libs.js",
-        "template.html"
+        "animes/better-filters.js",
+        "vendors/nekosama-libs.js",
+        "animes/template.html"
     ]
 }
