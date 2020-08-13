@@ -38,7 +38,7 @@ function updateFilter(filter, value) {
 }
 
 function fetchAnimes() {
-    $.getJSON('http://localhost:5000/api/animes', filters.toString(), function (data) {
+    $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), function (data) {
 
         $("#ajax-list-animes").loadTemplate($("#template"), data.animes, {
             complete: function() {
