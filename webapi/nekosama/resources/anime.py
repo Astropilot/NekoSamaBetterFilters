@@ -60,7 +60,7 @@ class AnimeListResource(Resource):
             ]
             search_args = []
             for s in searches:
-                search_args.extend([col.like(f'%{s}%') for col in columns])
+                search_args.extend([col.ilike(f'%{s}%') for col in columns])
             animes = animes.filter(or_(*search_args))
 
         if type is not None:

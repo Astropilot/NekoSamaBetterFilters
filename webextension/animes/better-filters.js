@@ -48,11 +48,14 @@ function fetchAnimes() {
     $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), function (data) {
 
         $("#ajax-list-animes").loadTemplate($("#template"), data.animes, {
+            isFile: false,
             complete: function() {
                 $('#loading').removeClass('active');
                 myLazyLoad.update();
             }
         });
+
+        if (data.animes.length === 0) $('#loading').removeClass('active');
 
         data.animes.length > 0 ? $('#animes-no-results').addClass('d-none') : $('#animes-no-results').removeClass('d-none');
 
@@ -128,6 +131,12 @@ $(document).ready(function () {
         filters.get('genres').split(',').forEach(g => $(`.item[data-value="${g}"]`).toggleClass('active'));
     }
 
+    ['sort', 'type', 'status', 'year'].forEach(function (filter) {
+        if (filters.has(filter)) {
+            $(`.ui.dropdown[data-filter="${filter}"]`).dropdown('set selected', filters.get(filter));
+        }
+    });
+
     // Dropdown filters
     $('.ui.dropdown').dropdown({
         onChange: function(value, text, $selectedItem) {
@@ -140,12 +149,6 @@ $(document).ready(function () {
         }
     });
 
-    ['sort', 'type', 'status', 'year'].forEach(function (filter) {
-        if (filters.has(filter)) {
-            $(`.ui.dropdown[data-filter="${filter}"]`).dropdown('set selected', filters.get(filter));
-        }
-    });
-
     var timerSearch;
     $('[name=search]').on('input', function () {
         clearTimeout(timerSearch);
@@ -155,6 +158,9 @@ $(document).ready(function () {
             updateFilter('search', search);
         }, 200);
     });
+    if (filters.has('search')) {
+        $('[name=search]').val(filters.get('search'));
+    }
 
     window.onpopstate = function(event) {
         filters = new URLSearchParams(window.location.search);
