@@ -5,12 +5,29 @@ new MutationObserver((mutations, observer) => {
                 addedNode.textContent = '';
                 observer.disconnect();
                 return;
+            } else if (addedNode.nodeType === 1 && addedNode.matches('script[type="text/javascript"]')) {
+                if (addedNode.textContent.trim().startsWith('var vsuri')) {
+                    addedNode.textContent = addedNode.textContent.replace(
+                        'var safeloadPBAFS = false;',
+                        'var safeloadPBAFS = true;'
+                    ).replace(
+                        'document.head.appendChild(importFAB);',
+                        ''
+                    );
+                }
             }
         }
     }
 })
 .observe(document.documentElement, { childList: true, subtree: true });
 
-document.addEventListener("DOMContentLoaded", function(){
-    document.querySelectorAll('.yet-another-overlay').forEach(el => el.remove());
+const sendEvent = () => {
+    jQuery(document).on('ready', function () {
+        jQuery('.yet-another-overlay').remove();
+        jQuery(document).trigger('manual-trigger');
+    });
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+    runInPageContext(sendEvent);
 });

@@ -48,6 +48,7 @@
             ],
             "run_at": "document_start",
             "js": [
+                "hijacking/sandbox-break.js",
                 "hijacking/pstream/pstream-overlay.js"
             ]
         },
