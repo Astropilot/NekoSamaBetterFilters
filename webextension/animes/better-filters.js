@@ -22,6 +22,12 @@ const yearFilter = `
     </div>
 `;
 
+const noResultPage = `
+    <div id="animes-no-results" style="padding-bottom: 0" class="d-none">
+        <h1>Aucun résultat n'a été trouvé !</h1>
+    </div>
+`;
+
 var filters = new URLSearchParams(window.location.search);
 const myLazyLoad = new LazyLoad();
 
@@ -38,34 +44,42 @@ function updateFilter(filter, value) {
 }
 
 function fetchAnimes() {
+    $('#loading').addClass('active');
     $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), function (data) {
 
         $("#ajax-list-animes").loadTemplate($("#template"), data.animes, {
             complete: function() {
+                $('#loading').removeClass('active');
                 myLazyLoad.update();
             }
         });
 
-        const paginateElement = $('<div class="nekosama pagination"></div>').pagination({
-            pages: data.pagination.total,
-            currentPage: data.pagination.current,
-            displayedPages: 8,
-            useAnchors: false,
-            ellipsePageSet: false,
-            cssStyle: '',
-            prevText: '<svg viewBox="0 0 24 24"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>',
-            nextText: '<svg viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path></svg>',
-            onPageClick: function (pageNumber) {
-                if (filters.has('page')) {
-                    page = parseInt(filters.get('page'), 10);
-                    if (page === pageNumber) return;
-                }
-                updateFilter('page', pageNumber.toString());
-                $(window).scrollTop(0);
-            }
-        });
+        data.animes.length > 0 ? $('#animes-no-results').addClass('d-none') : $('#animes-no-results').removeClass('d-none');
 
-        $('#ajax-pagination-wrapper').html(paginateElement);
+        if (data.animes.length > 0) {
+            const paginateElement = $('<div class="nekosama pagination"></div>').pagination({
+                pages: data.pagination.total,
+                currentPage: data.pagination.current,
+                displayedPages: 8,
+                useAnchors: false,
+                ellipsePageSet: false,
+                cssStyle: '',
+                prevText: '<svg viewBox="0 0 24 24"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>',
+                nextText: '<svg viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path></svg>',
+                onPageClick: function (pageNumber) {
+                    if (filters.has('page')) {
+                        page = parseInt(filters.get('page'), 10);
+                        if (page === pageNumber) return;
+                    }
+                    updateFilter('page', pageNumber.toString());
+                    $(window).scrollTop(0);
+                }
+            });
+
+            $('#ajax-pagination-wrapper').html(paginateElement);
+        } else {
+            $('#ajax-pagination-wrapper').empty();
+        }
 
         filter_url = filters.toString();
         if (new URLSearchParams(window.location.search).toString() !== filter_url) {
@@ -84,6 +98,7 @@ $(document).ready(function () {
 
     // Suppression de la partie legacy (On force le full ajax)
     $('#ajax-list-animes').removeClass('d-none');
+    $('#ajax-list-animes').after(noResultPage);
     $('#regular-list-animes').remove();
     $('#regular-pagination-wrapper').after(`<div id="ajax-pagination-wrapper"></div>`).remove();
 

@@ -7,7 +7,7 @@ new MutationObserver((mutations, observer) => {
             if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([id])')) {
                 if (addedNode.textContent.includes('myLazyLoad')) {
                     const request = new XMLHttpRequest();
-                    request.open('GET', chrome.runtime.getURL('animes/better-filters.js'), false);
+                    request.open('GET', browser.runtime.getURL('animes/better-filters.js'), false);
                     request.send();
 
                     addedNode.textContent = request.responseText;
@@ -15,7 +15,7 @@ new MutationObserver((mutations, observer) => {
                 }
             } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
                 const request = new XMLHttpRequest();
-                request.open('GET', chrome.runtime.getURL('animes/template.html'), false);
+                request.open('GET', browser.runtime.getURL('animes/template.html'), false);
                 request.send();
 
                 addedNode.textContent = request.responseText;

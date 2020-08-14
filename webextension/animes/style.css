@@ -15,3 +15,7 @@
     color: #f9f9f9 !important;
     background-color: #221f1f;
 }
+
+#animes-no-results, #animes-no-results > h1 {
+    text-align: center;
+}

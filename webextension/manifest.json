@@ -6,23 +6,60 @@
     "author": "Yohann Martin",
     "homepage_url": "https://github.com/Astropilot/NekoSamaBetterFilters",
     "icons": {
-        "32": "images/icon-32x32.png"
+        "128": "images/icon128.png",
+        "48": "images/icon48.png",
+        "16": "images/icon16.png"
     },
     "permissions": [
         "webRequest",
         "webRequestBlocking",
-        "tabs",
-        "*://*.neko-sama.fr/*"
+        "*://*.neko-sama.fr/*",
+        "*://*.myvidbid.ovh/*",
+        "*://*.pstream.net/*",
+        "*://*.inpagepush.com/*",
+        "*://*.mystream.to/*"
     ],
     "background": {
-        "scripts": ["hijacking/hijack-requests.js"]
+        "scripts": [
+            "vendors/browser-polyfill.min.js",
+            "hijacking/hijack-requests.js",
+            "hijacking/pstream/pstream-requests.js",
+            "hijacking/mystream/mystream-requests.js"
+        ]
     },
     "content_scripts": [
         {
-            "matches": ["https://www.neko-sama.fr/anime*"],
+            "matches": [
+                "https://www.neko-sama.fr/anime*"
+            ],
             "run_at": "document_start",
-            "js": ["hijacking/hijack-js.js"],
-            "css": ["css/style.css"]
+            "js": [
+                "vendors/browser-polyfill.min.js",
+                "hijacking/hijack-js.js"
+            ],
+            "css": [
+                "animes/style.css"
+            ]
+        },
+        {
+            "all_frames": true,
+            "matches": [
+                "https://www.pstream.net/e/*"
+            ],
+            "run_at": "document_start",
+            "js": [
+                "hijacking/pstream/pstream-overlay.js"
+            ]
+        },
+        {
+            "all_frames": true,
+            "matches": [
+                "https://embed.mystream.to/*"
+            ],
+            "run_at": "document_start",
+            "js": [
+                "hijacking/mystream/mystream-overlay.js"
+            ]
         }
     ],
     "web_accessible_resources": [
