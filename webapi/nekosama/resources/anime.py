@@ -15,6 +15,17 @@ SORTING_WHITELIST = {
 DEFAULT_PER_PAGE = 56
 
 
+class AnimeYearsResource(Resource):
+    def get(self):
+        years = Anime.query. \
+            filter(Anime.start_date_year.isnot(None)). \
+            with_entities(Anime.start_date_year). \
+            distinct(). \
+            order_by(Anime.start_date_year.desc()).all()
+
+        return years, 200
+
+
 class AnimeListResource(Resource):
     def get(self):
         data = request.args

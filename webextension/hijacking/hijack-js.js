@@ -1,31 +1,25 @@
-var hijackCounter = 0;
+const onNewNode = (addedNode) => {
+    if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([id])')) {
+        if (addedNode.textContent.includes('myLazyLoad')) {
+            const request = new XMLHttpRequest();
+            request.open('GET', browser.runtime.getURL('animes/better-filters.js'), false);
+            request.send();
 
-// Source: https://stackoverflow.com/a/59518023
-new MutationObserver((mutations, observer) => {
-    for (const mutation of mutations) {
-        for (const addedNode of mutation.addedNodes) {
-            if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([id])')) {
-                if (addedNode.textContent.includes('myLazyLoad')) {
-                    const request = new XMLHttpRequest();
-                    request.open('GET', browser.runtime.getURL('animes/better-filters.js'), false);
-                    request.send();
-
-                    addedNode.textContent = request.responseText;
-                    hijackCounter++;
-                }
-            } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
-                const request = new XMLHttpRequest();
-                request.open('GET', browser.runtime.getURL('animes/template.html'), false);
-                request.send();
-
-                addedNode.textContent = request.responseText;
-                hijackCounter++;
-            }
+            addedNode.textContent = request.responseText.replace(
+                '%NPROGRESS_URL%',
+                browser.runtime.getURL('vendors/nprogress/nprogress.min.js')
+            );
+            return true;
         }
-        if (hijackCounter === 2) {
-            observer.disconnect();
-            return;
-        }
+    } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
+        const request = new XMLHttpRequest();
+        request.open('GET', browser.runtime.getURL('animes/template.html'), false);
+        request.send();
+
+        addedNode.textContent = request.responseText;
+        return true;
     }
-})
-.observe(document.documentElement, { childList: true, subtree: true });
+    return false;
+};
+
+hijackDOM(document.documentElement, 2, onNewNode);

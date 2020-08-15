@@ -30,15 +30,18 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.neko-sama.fr/anime*"
+                "https://www.neko-sama.fr/anime",
+                "https://www.neko-sama.fr/anime?*"
             ],
             "run_at": "document_start",
             "js": [
                 "vendors/browser-polyfill.min.js",
+                "hijacking/utils.js",
                 "hijacking/hijack-js.js"
             ],
             "css": [
-                "animes/style.css"
+                "animes/style.css",
+                "vendors/nprogress/nprogress.css"
             ]
         },
         {
@@ -48,7 +51,7 @@
             ],
             "run_at": "document_start",
             "js": [
-                "hijacking/sandbox-break.js",
+                "hijacking/utils.js",
                 "hijacking/pstream/pstream-overlay.js"
             ]
         },
@@ -59,6 +62,7 @@
             ],
             "run_at": "document_start",
             "js": [
+                "hijacking/utils.js",
                 "hijacking/mystream/mystream-overlay.js"
             ]
         }
@@ -66,6 +70,7 @@
     "web_accessible_resources": [
         "animes/better-filters.js",
         "vendors/nekosama-libs.js",
+        "vendors/nprogress/nprogress.min.js",
         "animes/template.html"
     ]
 }

@@ -10,13 +10,11 @@ const yearSortingMenu = `
 const yearFilter = `
     <div class="item">
         <p class="title">Année</p>
-        <div id="year-dropdown" data-filter="year" class="ui dropdown fluid button uppercase" tabindex="0">
+        <div id="year-dropdown" data-filter="year" class="ui dropdown fluid search button uppercase" tabindex="0">
             <span class="text text-uppercase">TOUTES</span> <i class="dropdown icon"></i>
             <div class="menu uppercase transition hidden" tabindex="-1">
                 <div data-value="null" class="item active selected">TOUTES</div>
-                <div data-value="2020" class="item text-uppercase">2020</div>
-                <div data-value="2019" class="item text-uppercase">2019</div>
-                <div data-value="2018" class="item text-uppercase">2018</div>
+                %YEARS%
             </div>
         </div>
     </div>
@@ -27,6 +25,7 @@ const noResultPage = `
         <h1>Aucun résultat n'a été trouvé !</h1>
     </div>
 `;
+
 
 var filters = new URLSearchParams(window.location.search);
 const myLazyLoad = new LazyLoad();
@@ -44,18 +43,18 @@ function updateFilter(filter, value) {
 }
 
 function fetchAnimes() {
-    $('#loading').addClass('active');
+    NProgress.start();
     $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), function (data) {
 
         $("#ajax-list-animes").loadTemplate($("#template"), data.animes, {
             isFile: false,
             complete: function() {
-                $('#loading').removeClass('active');
                 myLazyLoad.update();
+                NProgress.done();
             }
         });
 
-        if (data.animes.length === 0) $('#loading').removeClass('active');
+        if (data.animes.length === 0) NProgress.done();
 
         data.animes.length > 0 ? $('#animes-no-results').addClass('d-none') : $('#animes-no-results').removeClass('d-none');
 
@@ -91,81 +90,97 @@ function fetchAnimes() {
     });
 }
 
+const scriptElement = document.createElement('script');
+scriptElement.src = '%NPROGRESS_URL%';
+scriptElement.onload = function() {
+    $(document).ready(function () {
 
-$(document).ready(function () {
+        // Ajout des filtres supplémentaires
+        $('#sort-dropdown').attr('data-filter', 'sort');
+        $('#sort-dropdown > .menu').append(yearSortingMenu);
 
-    // Ajout des filtres supplémentaires
-    $('#sort-dropdown').attr('data-filter', 'sort');
-    $('#sort-dropdown > .menu').append(yearSortingMenu);
-    $('#filters > .item.genres').before(yearFilter);
-
-    // Suppression de la partie legacy (On force le full ajax)
-    $('#ajax-list-animes').removeClass('d-none');
-    $('#ajax-list-animes').after(noResultPage);
-    $('#regular-list-animes').remove();
-    $('#regular-pagination-wrapper').after(`<div id="ajax-pagination-wrapper"></div>`).remove();
-
-    // Genres Pop Out
-    $('.genres .button').click(function () {
-        if ($('.genres-pop-out').is(':visible')) {
-            $('.genres-pop-out').css('display', 'none');
-        } else {
-            $('.genres-pop-out').css('display', 'block');
-        }
-    })
-
-    $('.genres-pop-out .item').click(function () {
-        $(this).toggleClass('active');
-
-        var genres = [];
-        if (filters.has('genres'))
-            genres = filters.get('genres').split(',');
-        if ($(this).hasClass('active')) {
-            genres.push($(this).attr('data-value'));
-        } else {
-            genres.splice($.inArray($(this).attr('data-value'), genres), 1);
-        }
-        updateFilter('genres', genres);
-    });
-    if (filters.has('genres')) {
-        filters.get('genres').split(',').forEach(g => $(`.item[data-value="${g}"]`).toggleClass('active'));
-    }
-
-    ['sort', 'type', 'status', 'year'].forEach(function (filter) {
-        if (filters.has(filter)) {
-            $(`.ui.dropdown[data-filter="${filter}"]`).dropdown('set selected', filters.get(filter));
-        }
-    });
-
-    // Dropdown filters
-    $('.ui.dropdown').dropdown({
-        onChange: function(value, text, $selectedItem) {
-            if ($(this).attr('data-filter') != null) {
-                updateFilter(
-                    $(this).attr('data-filter'),
-                    (value !== 'null' ? value : '')
-                );
+        $.getJSON('https://nekosama.codexus.fr/api/animes/years', function (years) {
+            var yearsHtml = '';
+            for (const year of years) {
+                yearsHtml += `<div data-value="${year}" class="item text-uppercase">${year}</div>`;
             }
+            $('#filters > .item.genres').before(yearFilter.replace('%YEARS%', yearsHtml));
+
+            ['sort', 'type', 'status', 'year'].forEach(function (filter) {
+                if (filters.has(filter)) {
+                    $(`.ui.dropdown[data-filter="${filter}"]`).dropdown('set selected', filters.get(filter));
+                }
+            });
+
+            // Dropdown filters
+            $('.ui.dropdown').dropdown({
+                onChange: function(value, text, $selectedItem) {
+                    if ($(this).attr('data-filter') != null) {
+                        actualValue = 'null';
+                        if (filters.has($(this).attr('data-filter')))
+                            actualValue = filters.get($(this).attr('data-filter'));
+                        if (value !== actualValue) {
+                            updateFilter(
+                                $(this).attr('data-filter'),
+                                (value !== 'null' ? value : '')
+                            );
+                        }
+                    }
+                }
+            });
+        });
+
+        // Suppression de la partie legacy (On force le full ajax)
+        $('#ajax-list-animes').removeClass('d-none');
+        $('#ajax-list-animes').after(noResultPage);
+        $('#regular-list-animes').remove();
+        $('#regular-pagination-wrapper').after(`<div id="ajax-pagination-wrapper"></div>`).remove();
+
+        // Genres Pop Out
+        $('.genres .button').click(function () {
+            if ($('.genres-pop-out').is(':visible')) {
+                $('.genres-pop-out').css('display', 'none');
+            } else {
+                $('.genres-pop-out').css('display', 'block');
+            }
+        });
+
+        $('.genres-pop-out .item').click(function () {
+            $(this).toggleClass('active');
+
+            var genres = [];
+            if (filters.has('genres'))
+                genres = filters.get('genres').split(',');
+            if ($(this).hasClass('active')) {
+                genres.push($(this).attr('data-value'));
+            } else {
+                genres.splice($.inArray($(this).attr('data-value'), genres), 1);
+            }
+            updateFilter('genres', genres);
+        });
+        if (filters.has('genres')) {
+            filters.get('genres').split(',').forEach(g => $(`.item[data-value="${g}"]`).toggleClass('active'));
         }
-    });
 
-    var timerSearch;
-    $('[name=search]').on('input', function () {
-        clearTimeout(timerSearch);
+        var timerSearch;
+        $('[name=search]').on('input', function () {
+            clearTimeout(timerSearch);
 
-        const search = $.trim($(this).val());
-        timerSearch = setTimeout(function () {
-            updateFilter('search', search);
-        }, 200);
-    });
-    if (filters.has('search')) {
-        $('[name=search]').val(filters.get('search'));
-    }
+            const search = $.trim($(this).val());
+            timerSearch = setTimeout(function () {
+                updateFilter('search', search);
+            }, 200);
+        });
+        if (filters.has('search')) {
+            $('[name=search]').val(filters.get('search'));
+        }
 
-    window.onpopstate = function(event) {
-        filters = new URLSearchParams(window.location.search);
+        window.onpopstate = function(event) {
+            filters = new URLSearchParams(window.location.search);
+            fetchAnimes();
+        };
+
         fetchAnimes();
-    };
-
-    fetchAnimes();
-});
+    });
+};
+document.head.appendChild(scriptElement);

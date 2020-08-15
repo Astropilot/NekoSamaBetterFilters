@@ -20,6 +20,8 @@ services:
       - 8000:8000
     links:
       - nekosamadb
+    environment:
+      FLASK_APP: "nekosama"
 
 volumes:
   nekosamadbdata:

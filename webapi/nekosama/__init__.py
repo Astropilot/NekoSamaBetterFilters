@@ -19,9 +19,10 @@ def create_app():
     from .api import api_bp
     api = Api(api_bp, catch_all_404s=True)
 
-    from .resources.anime import AnimeListResource
+    from .resources.anime import AnimeListResource, AnimeYearsResource
 
     api.add_resource(AnimeListResource, '/animes')
+    api.add_resource(AnimeYearsResource, '/animes/years')
 
     app.register_blueprint(api_bp, url_prefix='/api')
 

@@ -19,3 +19,8 @@
 #animes-no-results, #animes-no-results > h1 {
     text-align: center;
 }
+
+.ui.dropdown.search > input.search,
+.ui.dropdown.search > .text {
+    cursor: pointer !important;
+}
