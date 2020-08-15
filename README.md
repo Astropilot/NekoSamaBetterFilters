@@ -15,14 +15,6 @@ Refined Neko-Sama.fr</h4>
   <img src="https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-yellow.svg">
 </p>
 
-<!--<p align="center">
-  <a href="#about">About</a> •
-  <a href="#getting-started">Getting Started</a> •
-  <a href="#download">Download</a> •
-  <a href="#authors">Authors</a> •
-  <a href="#license">License</a>
-</p>-->
-
 <p align="center">
     <a href="#chrome" target="_blank"><img src="https://imgur.com/3C4iKO0.png" width="64" height="64"></a>
     <a href="#firefox" target="_blank"><img src="https://imgur.com/ihXsdDO.png" width="64" height="64"></a>
@@ -35,60 +27,17 @@ Refined Neko-Sama.fr</h4>
 
 ## A propos
 
-Cette extension web permet principalement de corriger la page
+Cette extension web permet principalement de corriger et d'améliorer la page des animés du site [Neko-Sama.fr](https://www.neko-sama.fr).
 
-## Getting Started
+Voici la liste des fonctionnalités qu'elle apporte:
 
-### Prerequisites
-
-To make this project work you will need:
-
-* PHP 7.+
-* A MySQL database server
-* A web server like Apache
-* The [XDebug](https://xdebug.org/) extension if you want to run unit tests (PHPUnit is provided in PHAR format in `tools/` folder)
-
-### Installing
-
-* Put all the files in your site directory
-* Configure your web server to serve the `appsy_project/public/` folder directly.
-
-A example with Apache in your `httpd.conf` file:
-```ini
-DocumentRoot "path/to/appsy_project/public"
-<Directory "path/to/appsy_project/public">
-    Options FollowSymLinks Includes ExecCGI
-    AllowOverride All
-    Require all granted
-</Directory>
-```
-* Configure your web server to declare 3 environment variables: `SMTP_HOST`, `MAIL_USERNAME` and `MAIL_PASSWORD`.
-  * `SMTP_HOST`: This is the address of the mail server to communicate to. Eg: smtp.gmail.com
-  * `MAIL_USERNAME`: This is the sender email address (used to send registration emails)
-  * `MAIL_PASSWORD`: This is the password for authenticating the email address defined above.
-
-A example with Apache in your `httpd.conf` file:
-```ini
-SetEnv SMTP_HOST smtp.gmail.com
-SetEnv MAIL_USERNAME sample@gmail.com
-SetEnv MAIL_PASSWORD my_password
-```
-* On your MySQL server create a database called `testify`. Import the `tools/testify.sql` script into your MySQL server to get the different tables needed by the project.
-* Everything is ready you can now access your site!
-
-### Utils CLI
-
-We provide a mini PHP cli application with some util commands.
-Here the list of the different commands available:
-- `clear-cache` : Clear the cache within `app/cache` folder. (Basically it delete all .php and .chtml files)
-
-### Running the tests
-
-To run PHPUnit on the unit tests you have two different configuration files, one for the Framework tests and the other one for the Project tests. You can start them by the following commands:
-```bash
-$ php tools/phpunit.phar --configuration framework.xml.dist
-$ php tools/phpunit.phar --configuration project.xml.dist
-```
+* [x] La recherche et la navigation entre les pages sont maintenant complètement dynamiques
+* [x] Les filtres Type, Status et Genres sont maintenant fonctionnels
+* [x] Ajout d'un filtre par année
+* [x] Vos filtres de recherche ainsi que la page sont sauvegardé dans l'URL pour vous permettre de les garder en favoris ou à transmettre ce lien à une tierce personne
+* [x] **Bonus**: Un anti-pub est intégré pour les deux hébergeurs vidéos présent sur le site:
+    * [x] pStream (Stream): Plus aucune PopUp et ajoute une compatibilité avec les autres bloqueurs de pub (Vous n'êtes donc plus dans l'obligation de les désactiver)
+    * [x] MyStream: Les PopUps sont retirées ainsi que les publicités intrusives sur le lecteur mais il n'est pas compatible avec certains bloqueurs de publicités. Si le lecteur ne réagit pas, essayez de désactiver vos anti-publicités pour Neko-Sama.fr
 
 ## Licence
 
