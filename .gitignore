@@ -90,3 +90,7 @@ ENV/
 
 # Database
 animes.db
+
+node_modules
+dist
+yarn.lock

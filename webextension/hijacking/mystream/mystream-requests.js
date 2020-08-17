@@ -1,7 +1,16 @@
-browser.webRequest.onBeforeRequest.addListener(
-    function(details) {
-        return { cancel: true };
+async function hijackMyStream() {
+    let {antipub} = await optionsStorage.getAll();
+
+    setInterval(async () => {
+        ({antipub} = await optionsStorage.getAll());
+    }, 3000);
+
+    browser.webRequest.onBeforeRequest.addListener(() => {
+        return {cancel: antipub};
     },
-    { urls: ['*://*.inpagepush.com/*'] },
+    {urls: ['*://*.inpagepush.com/*']},
     ['blocking']
-);
+    );
+}
+
+hijackMyStream();

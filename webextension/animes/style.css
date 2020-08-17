@@ -1,26 +1,33 @@
 .nekosama.pagination span {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.nekosama.pagination li.disabled, .nekosama.pagination li.disabled:hover, .nekosama.pagination li > span.ellipse {
-    opacity: 0.4;
+.nekosama.pagination li.disabled,
+.nekosama.pagination li.disabled:hover,
+.nekosama.pagination li > span.ellipse {
+  opacity: 0.4;
 }
 
 .nekosama.pagination li:hover span {
-    color: #f9f9f9;
+  color: #f9f9f9;
 }
 
 .nekosama.pagination li.active span {
-    border-radius: 100%;
-    color: #f9f9f9 !important;
-    background-color: #221f1f;
+  border-radius: 100%;
+  color: #f9f9f9;
+  background-color: #221f1f;
 }
 
-#animes-no-results, #animes-no-results > h1 {
-    text-align: center;
+#animes-no-results,
+#animes-no-results > h1 {
+  text-align: center;
 }
 
 .ui.dropdown.search > input.search,
 .ui.dropdown.search > .text {
-    cursor: pointer !important;
+  cursor: pointer !important;
+}
+
+.item.genres > .ui.button.has-filter {
+  background-color: #21ba45;
 }

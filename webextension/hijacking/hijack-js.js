@@ -1,4 +1,4 @@
-const onNewNode = (addedNode) => {
+const onNewNode = addedNode => {
     if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([id])')) {
         if (addedNode.textContent.includes('myLazyLoad')) {
             const request = new XMLHttpRequest();
@@ -18,8 +18,12 @@ const onNewNode = (addedNode) => {
 
         addedNode.textContent = request.responseText;
         return true;
+    } else if (addedNode.nodeType === 1 && addedNode.matches('div[id="regular-list-animes"]')) {
+        addedNode.remove();
+        return true;
     }
+
     return false;
 };
 
-hijackDOM(document.documentElement, 2, onNewNode);
+hijackDOM(document.documentElement, 3, onNewNode);

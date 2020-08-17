@@ -2,8 +2,8 @@ import click
 import requests
 from flask.cli import with_appcontext
 
-from .models.base import db
-from .models.anime import Anime, AnimeGenre
+# from .models.base import db
+from .models.anime import Anime
 
 
 GENRES = {
@@ -29,49 +29,36 @@ GENRES = {
 }
 
 
-@click.command('populate-genres')
-@with_appcontext
-def populate_genres():
-    for g in GENRES:
-        genre = AnimeGenre(name=g)
-        db.session.add(genre)
-    db.session.commit()
-    click.echo('Database populated!')
-
-
 @click.command('populate-animes')
 @with_appcontext
 def populate_animes():
+    if not Anime._index.exists():
+        Anime.init()
+
     r = requests.get('https://www.neko-sama.fr/animes-search.json?gkeorgkeogkccc')
     animes = r.json()
 
     for a in animes:
-        attributes = [x for x in a.keys() if x in GENRES]
-        genres = AnimeGenre.query.filter(AnimeGenre.name.in_(attributes)).all()
-
+        genres = [x for x in a.keys() if x in GENRES]
         try:
             start_date_year = int(a['start_date_year'])
         except ValueError:
             start_date_year = None
 
-        anime = Anime(
-            id=a['id'],
+        Anime(
+            _id=a['id'],
             title=a['title'],
             title_english=a['title_english'],
             title_romanji=a['title_romanji'],
             others=a['others'],
             type=a['type'],
             status=int(a['status']),
-            popularity=a['popularity'],
             url=a['url'],
             url_image=a['url_image'],
-            score=float(a['score']),
+            score_anime=float(a['score']),
             start_date_year=start_date_year,
             nb_eps=a['nb_eps'],
             genres=genres
-        )
+        ).save()
 
-        db.session.add(anime)
-
-    db.session.commit()
-    click.echo('Database populated!')
+    click.echo('Finished!')

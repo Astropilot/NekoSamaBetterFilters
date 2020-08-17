@@ -26,8 +26,7 @@ const noResultPage = `
     </div>
 `;
 
-
-var filters = new URLSearchParams(window.location.search);
+let filters = new URLSearchParams(window.location.search);
 const myLazyLoad = new LazyLoad();
 
 function updateFilter(filter, value) {
@@ -36,27 +35,34 @@ function updateFilter(filter, value) {
     } else {
         filters.set(filter, value);
     }
+
     if (filter !== 'page' && filters.has('page')) {
         filters.delete('page');
     }
+
     fetchAnimes();
 }
 
 function fetchAnimes() {
     NProgress.start();
-    $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), function (data) {
-
-        $("#ajax-list-animes").loadTemplate($("#template"), data.animes, {
+    $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), data => {
+        $('#ajax-list-animes').loadTemplate($('#template'), data.animes, {
             isFile: false,
-            complete: function() {
-                myLazyLoad.update();
+            complete: () => {
                 NProgress.done();
             }
         });
+        myLazyLoad.update();
 
-        if (data.animes.length === 0) NProgress.done();
+        if (data.animes.length === 0) {
+            NProgress.done();
+        }
 
-        data.animes.length > 0 ? $('#animes-no-results').addClass('d-none') : $('#animes-no-results').removeClass('d-none');
+        if (data.animes.length > 0) {
+            $('#animes-no-results').addClass('d-none');
+        } else {
+            $('#animes-no-results').removeClass('d-none');
+        }
 
         if (data.animes.length > 0) {
             const paginateElement = $('<div class="nekosama pagination"></div>').pagination({
@@ -68,11 +74,14 @@ function fetchAnimes() {
                 cssStyle: '',
                 prevText: '<svg viewBox="0 0 24 24"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>',
                 nextText: '<svg viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path></svg>',
-                onPageClick: function (pageNumber) {
+                onPageClick: pageNumber => {
                     if (filters.has('page')) {
-                        page = parseInt(filters.get('page'), 10);
-                        if (page === pageNumber) return;
+                        const page = Number.parseInt(filters.get('page'), 10);
+                        if (page === pageNumber) {
+                            return;
+                        }
                     }
+
                     updateFilter('page', pageNumber.toString());
                     $(window).scrollTop(0);
                 }
@@ -83,30 +92,30 @@ function fetchAnimes() {
             $('#ajax-pagination-wrapper').empty();
         }
 
-        filter_url = filters.toString();
-        if (new URLSearchParams(window.location.search).toString() !== filter_url) {
-            history.pushState({}, null, window.location.pathname + (filter_url.length > 0 ? '?': '') + filter_url);
+        const filterUrl = filters.toString();
+        if (new URLSearchParams(window.location.search).toString() !== filterUrl) {
+            history.pushState({}, null, window.location.pathname + (filterUrl.length > 0 ? '?' : '') + filterUrl);
         }
     });
 }
 
 const scriptElement = document.createElement('script');
 scriptElement.src = '%NPROGRESS_URL%';
-scriptElement.onload = function() {
-    $(document).ready(function () {
-
+scriptElement.addEventListener('load', () => {
+    $(document).ready(() => {
         // Ajout des filtres supplémentaires
         $('#sort-dropdown').attr('data-filter', 'sort');
         $('#sort-dropdown > .menu').append(yearSortingMenu);
 
-        $.getJSON('https://nekosama.codexus.fr/api/animes/years', function (years) {
-            var yearsHtml = '';
+        $.getJSON('https://nekosama.codexus.fr/api/animes/years', years => {
+            let yearsHtml = '';
             for (const year of years) {
                 yearsHtml += `<div data-value="${year}" class="item text-uppercase">${year}</div>`;
             }
+
             $('#filters > .item.genres').before(yearFilter.replace('%YEARS%', yearsHtml));
 
-            ['sort', 'type', 'status', 'year'].forEach(function (filter) {
+            ['sort', 'type', 'status', 'year'].forEach(filter => {
                 if (filters.has(filter)) {
                     $(`.ui.dropdown[data-filter="${filter}"]`).dropdown('set selected', filters.get(filter));
                 }
@@ -114,15 +123,17 @@ scriptElement.onload = function() {
 
             // Dropdown filters
             $('.ui.dropdown').dropdown({
-                onChange: function(value, text, $selectedItem) {
-                    if ($(this).attr('data-filter') != null) {
-                        actualValue = 'null';
-                        if (filters.has($(this).attr('data-filter')))
+                onChange(value) {
+                    if ($(this).attr('data-filter') !== null) {
+                        let actualValue = 'null';
+                        if (filters.has($(this).attr('data-filter'))) {
                             actualValue = filters.get($(this).attr('data-filter'));
+                        }
+
                         if (value !== actualValue) {
                             updateFilter(
                                 $(this).attr('data-filter'),
-                                (value !== 'null' ? value : '')
+                                (value === 'null' ? '' : value)
                             );
                         }
                     }
@@ -133,11 +144,13 @@ scriptElement.onload = function() {
         // Suppression de la partie legacy (On force le full ajax)
         $('#ajax-list-animes').removeClass('d-none');
         $('#ajax-list-animes').after(noResultPage);
+        // Cet élément est normalement déjà supprimé par le hijack-js.js mais
+        // ça ne coûte rien de le laisser au cas où la suppression via le DOM échoue
         $('#regular-list-animes').remove();
-        $('#regular-pagination-wrapper').after(`<div id="ajax-pagination-wrapper"></div>`).remove();
+        $('#regular-pagination-wrapper').after('<div id="ajax-pagination-wrapper"></div>').remove();
 
         // Genres Pop Out
-        $('.genres .button').click(function () {
+        $('.genres .button').click(() => {
             if ($('.genres-pop-out').is(':visible')) {
                 $('.genres-pop-out').css('display', 'none');
             } else {
@@ -148,26 +161,36 @@ scriptElement.onload = function() {
         $('.genres-pop-out .item').click(function () {
             $(this).toggleClass('active');
 
-            var genres = [];
-            if (filters.has('genres'))
+            let genres = [];
+            if (filters.has('genres')) {
                 genres = filters.get('genres').split(',');
+            }
+
             if ($(this).hasClass('active')) {
                 genres.push($(this).attr('data-value'));
             } else {
                 genres.splice($.inArray($(this).attr('data-value'), genres), 1);
             }
+
+            if (genres.length > 0) {
+                $('.item.genres > .ui.button').addClass('has-filter');
+            } else {
+                $('.item.genres > .ui.button').removeClass('has-filter');
+            }
+
             updateFilter('genres', genres);
         });
         if (filters.has('genres')) {
+            $('.item.genres > .ui.button').addClass('has-filter');
             filters.get('genres').split(',').forEach(g => $(`.item[data-value="${g}"]`).toggleClass('active'));
         }
 
-        var timerSearch;
+        let timerSearch;
         $('[name=search]').on('input', function () {
             clearTimeout(timerSearch);
 
             const search = $.trim($(this).val());
-            timerSearch = setTimeout(function () {
+            timerSearch = setTimeout(() => {
                 updateFilter('search', search);
             }, 200);
         });
@@ -175,12 +198,13 @@ scriptElement.onload = function() {
             $('[name=search]').val(filters.get('search'));
         }
 
-        window.onpopstate = function(event) {
+        window.onpopstate = () => {
             filters = new URLSearchParams(window.location.search);
             fetchAnimes();
         };
 
         fetchAnimes();
     });
-};
-document.head.appendChild(scriptElement);
+});
+
+document.head.append(scriptElement);

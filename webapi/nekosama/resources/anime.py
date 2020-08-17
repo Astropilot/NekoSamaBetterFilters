@@ -1,13 +1,12 @@
-import re
+import math
 from flask import request
 from flask_restful import Resource
-from sqlalchemy import or_
+from elasticsearch_dsl import Q, A
 
-from ..models.anime import Anime, AnimeGenre, animes_schema
+from ..models.anime import Anime, format_anime
 
 
 SORTING_WHITELIST = {
-    'score',
     'title',
     'start_date_year'
 }
@@ -17,11 +16,22 @@ DEFAULT_PER_PAGE = 56
 
 class AnimeYearsResource(Resource):
     def get(self):
-        years = Anime.query. \
-            filter(Anime.start_date_year.isnot(None)). \
-            with_entities(Anime.start_date_year). \
-            distinct(). \
-            order_by(Anime.start_date_year.desc()).all()
+        a = A(
+            'terms',
+            field='start_date_year',
+            size=100,
+            order={"_key": "desc"}
+        )
+        years = Anime.search()
+        years.aggs.bucket('genres', a)
+        years = years[:0]
+
+        response = years.execute()
+
+        if response.success():
+            years = [genre.key for genre in response.aggregations.genres.buckets]
+        else:
+            return [], 200
 
         return years, 200
 
@@ -33,6 +43,8 @@ class AnimeListResource(Resource):
         # Pagination
         try:
             page = int(data.get('page', 1))
+            if page < 1:
+                page = 1
         except ValueError:
             page = 1
 
@@ -55,55 +67,64 @@ class AnimeListResource(Resource):
             genres = genres[0].split(',')
 
         if sort_by not in SORTING_WHITELIST:
-            sort_by = 'score'
+            sort_by = 'score_anime'
         if sort_dir != 'asc' and sort_dir != 'desc':
             sort_dir = 'desc'
 
-        animes = Anime.query
+        animes = Anime.search()
 
         if search is not None:
-            searches = re.split(r'[\s\-]+', search.lower())
-            columns = [
-                Anime.title,
-                Anime.title_english,
-                Anime.title_romanji,
-                Anime.others
-            ]
-            search_args = []
-            for s in searches:
-                search_args.extend([col.ilike(f'%{s}%') for col in columns])
-            animes = animes.filter(or_(*search_args))
+            search = search.strip()
+            animes = animes.query(
+                'multi_match',
+                query=search,
+                type='bool_prefix',
+                operator='AND',
+                fields=['title', 'title_english', 'title_romanji', 'others']
+            )
 
         if type is not None:
-            animes = animes.filter(Anime.type == type)
+            animes = animes.filter('term', type=type)
 
         if status is not None:
             try:
-                animes = animes.filter(Anime.status == int(status))
+                animes = animes.filter('term', status=int(status))
             except ValueError:
                 pass
 
         if year is not None:
             try:
-                animes = animes.filter(Anime.start_date_year == int(year))
+                animes = animes.filter('term', start_date_year=int(year))
             except ValueError:
                 pass
 
         if len(genres) > 0:
+            q = Q('term', genres=genres.pop(0))
             for genre in genres:
-                animes = animes.filter(
-                    Anime.genres.any(AnimeGenre.name == genre)
-                )
+                q = q & Q('term', genres=genre)
+            animes = animes.query(q)
 
-        animes = animes.order_by(
-            getattr(getattr(Anime, sort_by), sort_dir)(),
-            Anime.score.desc(),
-            Anime.popularity.desc()
+        animes = animes.sort(
+            {sort_by: {'order': sort_dir}},
+            '-score_anime',
+            '_score'
         )
-        animes = animes.paginate(page, perPage, error_out=False)
 
-        animes_dump = animes_schema.dump(animes.items)
+        animes = animes[(page - 1) * perPage:page * perPage]
+
+        response = animes.execute()
+
+        if response.success() is True:
+            animes = [format_anime(a) for a in response]
+            total_page = math.ceil(response.hits.total.value / perPage)
+            if page > total_page:
+                page = total_page
+        else:
+            animes = []
+            total_page = 0
+            page = 1
+
         return {
-            'animes': animes_dump,
-            'pagination': {'current': animes.page, 'total': animes.pages}
+            'animes': animes,
+            'pagination': {'current': page, 'total': total_page}
         }, 200

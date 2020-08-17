@@ -7,6 +7,6 @@ WORKDIR /code
 
 COPY requirements.txt ./
 
-RUN PYCURL_SSL_LIBRARY=openssl cat requirements.txt | xargs -n 1 -L 1 pip install
+RUN pip install --upgrade pip && PYCURL_SSL_LIBRARY=openssl cat requirements.txt | xargs -n 1 -L 1 pip install
 
 COPY . /code

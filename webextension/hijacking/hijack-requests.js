@@ -1,29 +1,30 @@
-const tabData = {};
+const tabData = new Map();
 
 function recordFrame(tabId, frameId, frameUrl) {
-    if (!tabData.hasOwnProperty(tabId)) {
-        tabData[tabId] = {
-            frames: {},
-            origins: {}
-        };
+    if (!tabData.has(tabId)) {
+        tabData.set(tabId, {
+            frames: new Map()
+        });
     }
-    tabData[tabId].frames[frameId] = {
+
+    tabData.get(tabId).frames.set(frameId, {
         url: frameUrl
-    };
+    });
 }
 
 function getUrlForTab(tabId) {
-    frameId = 0;
-    if (tabData.hasOwnProperty(tabId)) {
-      if (tabData[tabId].frames.hasOwnProperty(frameId)) {
-        return tabData[tabId].frames[frameId].url;
-      }
+    const frameId = 0;
+    if (tabData.has(tabId)) {
+        if (tabData.get(tabId).frames.has(frameId)) {
+            return tabData.get(tabId).frames.get(frameId).url;
+        }
     }
+
     return null;
 }
 
 browser.webRequest.onBeforeRequest.addListener(
-    function(details) {
+    details => {
         if (details.type === 'main_frame' || details.type === 'sub_frame') {
             recordFrame(details.tabId, details.frameId, details.url);
             return {};
@@ -31,13 +32,14 @@ browser.webRequest.onBeforeRequest.addListener(
 
         const tabUrl = getUrlForTab(details.tabId);
 
-        if (tabUrl && tabUrl.endsWith('/anime')) {
-            if (details.url.startsWith('https://www.neko-sama.fr/js/nekosama-libs.js'))
-                return { redirectUrl: browser.runtime.getURL('vendors/nekosama-libs.js') };
+        if (tabUrl && tabUrl.match(/\/anime(\?.*|)$/)) {
+            if (details.url.startsWith('https://www.neko-sama.fr/js/nekosama-libs.js')) {
+                return {redirectUrl: browser.runtime.getURL('vendors/nekosama-libs.min.js')};
+            }
         }
 
         return {};
     },
-    { urls: ['*://*.neko-sama.fr/*'] },
+    {urls: ['*://*.neko-sama.fr/*']},
     ['blocking']
 );
