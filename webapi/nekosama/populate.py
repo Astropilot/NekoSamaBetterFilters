@@ -1,6 +1,7 @@
 import click
 import requests
 from flask.cli import with_appcontext
+from elasticsearch_dsl import Q
 
 # from .models.base import db
 from .models.anime import Anime
@@ -61,4 +62,13 @@ def populate_animes():
             genres=genres
         ).save()
 
-    click.echo('Finished!')
+    click.echo(f'Added or updated {len(animes)} animes!')
+
+    anime_ids = [str(a['id']) for a in animes]
+
+    search = Anime.search()
+    search = search.query(~Q('ids', values=anime_ids))
+
+    response = search.delete()
+
+    click.echo(f'Deleted {response.deleted} animes!')

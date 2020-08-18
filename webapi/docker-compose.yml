@@ -14,6 +14,11 @@ services:
       - cluster.initial_master_nodes=esn01
       - bootstrap.memory_lock=true
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - http.port=9200
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+      - http.cors.allow-credentials=true
     ulimits:
       nofile:
         soft: 65535
