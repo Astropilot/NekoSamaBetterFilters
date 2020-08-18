@@ -8,7 +8,7 @@ Refined Neko-Sama.fr</h4>
 
 <p align="center">
   <a href="https://github.com/Astropilot/NekoSamaBetterFilters/actions">
-    <img src="https://github.com/Astropilot/NekoSamaBetterFilters/workflows/.github/workflows/Build%20%26%20Publish%20WebAPI/badge.svg"
+    <img src="https://github.com/Astropilot/NekoSamaBetterFilters/workflows/Build%20%26%20Publish%20WebAPI/badge.svg"
          alt="Build Status">
   </a>
   <img src="https://img.shields.io/github/v/tag/Astropilot/NekoSamaBetterFilters">
