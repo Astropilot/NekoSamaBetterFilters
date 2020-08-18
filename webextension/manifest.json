@@ -36,7 +36,8 @@
             "hijacking/hijack-requests.js",
             "hijacking/pstream/pstream-requests.js",
             "hijacking/mystream/mystream-requests.js"
-        ]
+        ],
+        "persistent": true
     },
     "content_scripts": [
         {

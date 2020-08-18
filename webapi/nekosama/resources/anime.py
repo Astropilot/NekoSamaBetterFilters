@@ -104,6 +104,8 @@ class AnimeListResource(Resource):
                 q = q & Q('term', genres=genre)
             animes = animes.query(q)
 
+        if sort_by == 'title':
+            sort_by = sort_by + '.keyword'
         animes = animes.sort(
             {sort_by: {'order': sort_dir}},
             '-score_anime',
