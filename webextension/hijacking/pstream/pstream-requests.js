@@ -1,17 +1,17 @@
 async function hijackPStream() {
-    let {antipub} = await optionsStorage.getAll();
+  let {adblock} = await optionsStorage.getAll();
 
-    setInterval(async () => {
-        ({antipub} = await optionsStorage.getAll());
-    }, 3000);
+  setInterval(async () => {
+    ({adblock} = await optionsStorage.getAll());
+  }, 3000);
 
-    browser.webRequest.onBeforeRequest.addListener(
-        () => {
-            return {cancel: antipub};
-        },
-        {urls: ['*://*.myvidbid.ovh/*']},
-        ['blocking']
-    );
+  browser.webRequest.onBeforeRequest.addListener(
+    () => {
+      return {cancel: adblock};
+    },
+    {urls: ['*://*.myvidbid.ovh/*']},
+    ['blocking']
+  );
 }
 
 hijackPStream();

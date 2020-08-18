@@ -3,7 +3,6 @@ import requests
 from flask.cli import with_appcontext
 from elasticsearch_dsl import Q
 
-# from .models.base import db
 from .models.anime import Anime
 
 

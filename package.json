@@ -1,72 +1,72 @@
 {
-    "private": true,
-    "repository": "Astropilot/NekoSamaBetterFilters",
-    "scripts": {
-        "lint": "run-p lint:*",
-        "lint:js": "xo",
-        "lint:css": "stylelint webextension/animes/style.css",
-        "lint-fix": "run-p 'lint:* -- --fix'",
-        "test": "run-s lint:* build",
-        "build": "gulp",
-        "watch": "gulp watch",
-        "release": "run-s build version upload:*",
-        "upload:amo": "cd dist && webext submit",
-        "upload:cws": "cd dist && webstore upload --auto-publish",
-        "version": "dot-json --indent=2 dist/manifest.json version"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.11.1",
-        "@babel/preset-env": "^7.11.0",
-        "chrome-webstore-upload-cli": "^1.2.0",
-        "dot-json": "^1.2.0",
-        "eslint": "^7.7.0",
-        "eslint-config-xo": "^0.32.1",
-        "gulp": "^4.0.2",
-        "gulp-babel": "^8.0.0",
-        "gulp-changed": "^4.0.2",
-        "gulp-clean": "^0.4.0",
-        "gulp-concat": "^2.6.1",
-        "gulp-rename": "^2.0.0",
-        "gulp-uglify": "^3.0.2",
-        "npm-run-all": "^4.1.5",
-        "path": "^0.12.7",
-        "stylelint": "^13.6.1",
-        "stylelint-config-xo-space": "^0.14.0",
-        "terser-webpack-plugin": "^4.1.0",
-        "web-ext": "^5.0.0",
-        "web-ext-submit": "^5.0.2",
-        "webpack": "^4.44.1",
-        "webpack-cli": "^3.3.12",
-        "xo": "^0.33.0"
-    },
-    "dependencies": {
-        "webext-base-css": "^1.1.0",
-        "webext-options-sync": "^1.2.3",
-        "webextension-polyfill": "^0.6.0"
-    },
-    "xo": {
-        "space": 4,
-        "envs": [
-            "browser",
-            "webextensions"
-        ],
-        "ignores": [
-            "dist",
-            "webapi",
-            "webextension/vendors"
-        ],
-        "globals": [
-            "browser",
-            "$",
-            "NProgress",
-            "LazyLoad",
-            "optionsStorage",
-            "jQuery",
-            "hijackDOM",
-            "runInPageContext"
-        ]
-    },
-    "stylelint": {
-        "extends": "stylelint-config-xo-space"
-    }
+  "private": true,
+  "repository": "Astropilot/NekoSamaBetterFilters",
+  "scripts": {
+    "lint": "run-p lint:*",
+    "lint:js": "xo",
+    "lint:css": "stylelint webextension/animes/style.css",
+    "lint-fix": "run-p 'lint:* -- --fix'",
+    "test": "run-s lint:* build",
+    "build": "gulp",
+    "watch": "gulp watch",
+    "release": "run-s build version upload:*",
+    "upload:amo": "cd dist && webext submit",
+    "upload:cws": "cd dist && webstore upload --auto-publish",
+    "version": "dot-json --indent=2 dist/manifest.json version"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "chrome-webstore-upload-cli": "^1.2.0",
+    "dot-json": "^1.2.0",
+    "eslint": "^7.7.0",
+    "eslint-config-xo": "^0.32.1",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-changed": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "npm-run-all": "^4.1.5",
+    "path": "^0.12.7",
+    "stylelint": "^13.6.1",
+    "stylelint-config-xo-space": "^0.14.0",
+    "terser-webpack-plugin": "^4.1.0",
+    "web-ext": "^5.0.0",
+    "web-ext-submit": "^5.0.2",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "xo": "^0.33.0"
+  },
+  "dependencies": {
+    "webext-base-css": "^1.1.0",
+    "webext-options-sync": "^1.2.3",
+    "webextension-polyfill": "^0.6.0"
+  },
+  "xo": {
+    "space": 2,
+    "envs": [
+      "browser",
+      "webextensions"
+    ],
+    "ignores": [
+      "dist",
+      "webapi",
+      "webextension/vendors"
+    ],
+    "globals": [
+      "browser",
+      "$",
+      "NProgress",
+      "LazyLoad",
+      "optionsStorage",
+      "jQuery",
+      "hijackDOM",
+      "runInPageContext"
+    ]
+  },
+  "stylelint": {
+    "extends": "stylelint-config-xo-space"
+  }
 }

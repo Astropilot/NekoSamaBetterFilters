@@ -1,16 +1,17 @@
 async function hijackMyStream() {
-    let {antipub} = await optionsStorage.getAll();
+  let {adblock} = await optionsStorage.getAll();
 
-    setInterval(async () => {
-        ({antipub} = await optionsStorage.getAll());
-    }, 3000);
+  setInterval(async () => {
+    ({adblock} = await optionsStorage.getAll());
+  }, 3000);
 
-    browser.webRequest.onBeforeRequest.addListener(() => {
-        return {cancel: antipub};
+  browser.webRequest.onBeforeRequest.addListener(
+    () => {
+      return {cancel: adblock};
     },
     {urls: ['*://*.inpagepush.com/*']},
     ['blocking']
-    );
+  );
 }
 
 hijackMyStream();

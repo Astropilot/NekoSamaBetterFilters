@@ -17,7 +17,7 @@ class Anime(Document):
 
     class Index:
         name = 'animes'
-        settings = {"number_of_shards": 1, "number_of_replicas": 0}
+        settings = {'number_of_shards': 1, 'number_of_replicas': 0}
 
 
 def format_anime(anime):
