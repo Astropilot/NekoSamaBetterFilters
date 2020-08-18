@@ -7,7 +7,7 @@
 Refined Neko-Sama.fr</h4>
 
 <p align="center">
-  <a href="https://travis-ci.org/Astropilot/appsy_project">
+  <a href="https://github.com/Astropilot/NekoSamaBetterFilters/actions">
     <img src="https://github.com/Astropilot/NekoSamaBetterFilters/workflows/.github/workflows/Build%20%26%20Publish%20WebAPI/badge.svg"
          alt="Build Status">
   </a>
