@@ -1,3 +1,5 @@
+name: Build & Publish WebAPI
+
 on:
   push:
     branches:
