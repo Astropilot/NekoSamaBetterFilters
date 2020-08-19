@@ -2,17 +2,23 @@ from flask import Flask, Blueprint
 from flask_restful import Api
 from flask_cors import CORS
 from elasticsearch_dsl import connections
+from flask_mail import Mail
+
 from .populate import populate_animes
 
 
 def create_app():
     app = Flask(__name__)
+
     app.config.from_pyfile('config.py')
 
     connections.create_connection(
         hosts=[app.config['ELASTICSEARCH_HOST']],
-        timeout=20
+        timeout=30
     )
+
+    if app.config['MAIL_ACTIVE_LOGS'] is True:
+        app.mail = Mail(app)
 
     app.cli.add_command(populate_animes)
 

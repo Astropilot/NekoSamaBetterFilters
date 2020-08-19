@@ -38,7 +38,8 @@ services:
     links:
       - elasticsearch
     environment:
-      FLASK_APP: "nekosama"
+      - FLASK_APP=nekosama
+      - ELASTICSEARCH_HOST=elasticsearch:9200
 
 volumes:
   elasticsearch:

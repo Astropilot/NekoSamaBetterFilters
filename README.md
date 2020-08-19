@@ -24,7 +24,7 @@ Refined Neko-Sama.fr</h4>
     <a href="#tor" target="_blank"><img src="https://imgur.com/MQYBSrD.png" width="64" height="64"></a>
 </p>
 
-> :warning: **Pas encore de release**: La première version ne devrait plus tarder à arriver !
+> :construction: **Pas encore de release**: La première version ne devrait plus tarder à arriver !
 
 ## A propos
 
@@ -47,7 +47,7 @@ Voici la liste des fonctionnalités qu'elle apporte:
 * [Node.js](https://nodejs.org) v14 ou plus
 * [Python](https://www.python.org) 3+
 * [Gulp](https://gulpjs.com)
-* [Docker](https://www.docker.com) + [docker-compose](https://docs.docker.com/compose) (optionnel mais chaudement recommandé)
+* [Docker](https://www.docker.com) + [docker-compose](https://docs.docker.com/compose) (optionnel mais chaudement recommandé). Pour Windows vous avez [Docker Desktop](https://www.docker.com/products/docker-desktop)
 * [Elasticsearch](https://www.elastic.co/fr/elasticsearch/) si vous ne comptez pas utiliser Docker
 * Un navigateur comme [Firefox](https://www.mozilla.org/fr/firefox/new), [Chrome](https://www.google.fr/chrome) ou [Edge](https://www.microsoft.com/edge)
 
@@ -63,6 +63,42 @@ Attention pour faire fonctionner le moteur ElasticSearch vous devez impérativem
 
 L'api est disponible à l'adresse `http://127.0.0.1:8000/api/animes` <br>
 l'api d'ElasticSearch est disponible à l'adresse `http://127.0.0.1:9200`
+
+#### Populer la base de données Elasticsearch
+
+Actuellement la base de documents est vide par défaut, pour y ajouter les animés présent sur Neko-Sama, vous devez utiliser la commande Flask `populate-animes`, avec Docker il vous suffit d'entrer l'a commande suivante
+```sh
+$ docker-compose run webapi flask populate-animes
+```
+
+:bulb: **Tips**: La commande pour rajouter les animés dans Elasticsearch supporte l'envoi d'email si l'opération à réussi ou échouée. Dans le cas d'une réussite elle renvoi les informations sur les animés rajoutés/modifiés/supprimés ainsi qu'un rapport d'health-check du cluster. Dans le cas d'une erreur vous recevrez la stacktrace de l'exception.
+
+Pour activer et configurer l'envoi de mail, vous devez définir les variables d'environnement suivantes
+* `MAIL_ACTIVE_LOGS` : Mettez cette valeur à `true` pour activer l'envoi des mails
+* `MAIL_SERVER` : Il s'agit du serveur mail à contacter (Généralement le serveur SMTP qui gère l'email que vous voulez utiliser)
+* `MAIL_PORT` : Il s'agit du port à utiliser pour contacter le serveur mail. Il s'agit souvent du port `587` ou `465` pour une communication chiffrée
+* `MAIL_USE_TLS` : Mettez cette valeur à `true` pour utiliser le protocol TLS
+* `MAIL_USE_SSL` : Mettez cette valeur à `true` pour utiliser le protocol SSL
+* `MAIL_USERNAME` : Il s'agit de votre identifiant d'authentification au serveur mail
+* `MAIL_PASSWORD` : Renseignez ici votre mot de passe d'authentification si c'est nécessaire
+* `MAIL_LOGS_RECIPIENT` : Il s'agit de l'adresse email qui recevra les mails de l'API
+
+Voici un exemple d'une configuration pour utiliser votre adresse Gmail pour envoyer les mails
+```sh
+MAIL_ACTIVE_LOGS=true
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USE_TLS=false
+MAIL_USE_SSL=true
+MAIL_USERNAME=votre-adresse@gmail.com
+MAIL_PASSWORD=votre-mot-de-passe
+MAIL_LOGS_RECIPIENT=je-recois-les-emails@*****.***
+```
+
+Vous pouvez soit les définir de plusieurs manières
+* Via la commande `export` sous Unix ou `set` pour Windows (Peu recommandé car il faut le faire à chaque nouvelle session)
+* Vous pouvez les ajouter dans le `docker-compose.yml` dans la rubrique `environment` de `webapi` (Vous n'avez qu'à le faire une fois mais vos identifiants seront exposé sur Git si vous les incluez dans un commit)
+* Vous pouvez définir un fichier `.env` dans le dossier `webapi` dans lequel vous mettez vos variables d'environment. Il sera lu automatiquement par Flask lorsque vous utiliserez la commande `populate-animes`. Et il ne sera pas pris en compte dans vos commit car il à été ajouté au `.gitignore`
 
 ### Compiler / Lancer l'extension Web
 

@@ -45,7 +45,7 @@ function updateFilter(filter, value) {
 
 function fetchAnimes() {
   NProgress.start();
-  $.getJSON('http://localhost:8000/api/animes', filters.toString(), data => {
+  $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), data => {
     $('#ajax-list-animes').loadTemplate($('#template'), data.animes, {
       isFile: false,
       complete: () => {
@@ -112,7 +112,7 @@ scriptElement.addEventListener('load', () => {
     $('#sort-dropdown').attr('data-filter', 'sort');
     $('#sort-dropdown > .menu').append(yearSortingMenu);
 
-    $.getJSON('http://localhost:8000/api/animes/years', years => {
+    $.getJSON('https://nekosama.codexus.fr/api/animes/years', years => {
       let yearsHtml = '';
       for (const year of years) {
         yearsHtml += `<div data-value="${year}" class="item text-uppercase">${year}</div>`;

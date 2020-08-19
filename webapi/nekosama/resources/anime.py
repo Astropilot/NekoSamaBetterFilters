@@ -29,7 +29,7 @@ class AnimeYearsResource(Resource):
         response = years.execute()
 
         if response.success():
-            years = [genre.key for genre in response.aggregations.genres.buckets]
+            years = [year.key for year in response.aggregations.genres.buckets]
         else:
             return [], 200
 
@@ -49,9 +49,9 @@ class AnimeListResource(Resource):
             page = 1
 
         try:
-            perPage = int(data.get('perPage', DEFAULT_PER_PAGE))
+            per_page = int(data.get('perPage', DEFAULT_PER_PAGE))
         except ValueError:
-            perPage = DEFAULT_PER_PAGE
+            per_page = DEFAULT_PER_PAGE
 
         # Filters
         search = data.get('search', None)
@@ -112,13 +112,13 @@ class AnimeListResource(Resource):
             '_score'
         )
 
-        animes = animes[(page - 1) * perPage:page * perPage]
+        animes = animes[(page - 1) * per_page:page * per_page]
 
         response = animes.execute()
 
         if response.success() is True:
             animes = [format_anime(a) for a in response]
-            total_page = math.ceil(response.hits.total.value / perPage)
+            total_page = math.ceil(response.hits.total.value / per_page)
             if page > total_page:
                 page = total_page
         else:
