@@ -67,6 +67,9 @@
     ]
   },
   "stylelint": {
-    "extends": "stylelint-config-xo-space"
+    "extends": "stylelint-config-xo-space",
+    "rules": {
+      "declaration-no-important": null
+    }
   }
 }
