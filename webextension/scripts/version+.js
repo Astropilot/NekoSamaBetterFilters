@@ -30,6 +30,6 @@ versionFileList.forEach(file => {
     }
 
     // Write JSON
-    fs.writeFile(file, JSON.stringify(json, null, 4), err => console.warn(err ? err : ''));
+    fs.writeFile(file, JSON.stringify(json, null, 2), err => console.warn(err ? err : ''));
   });
 });

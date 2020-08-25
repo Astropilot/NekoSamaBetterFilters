@@ -29,7 +29,7 @@ export function hijackDOM(target: any, matches: number, nodeCallback: (node: any
 }
 
 // Sandbox Breaking
-// Source: Source: https://github.com/intoli/intoli-article-materials/blob/master/articles/sandbox-breakout/extension/sandbox-breakout.js
+// Source: https://github.com/intoli/intoli-article-materials/blob/master/articles/sandbox-breakout/extension/sandbox-breakout.js
 
 export function runInPageContext(method: () => void | string, autoRemove: boolean, ...args: any[]) {
   const stringifiedMethod: string = method instanceof Function ? method.toString() : `() => { ${method as string} }`;
