@@ -1,6 +1,8 @@
-const onNewNode = addedNode => {
-  if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([id])')) {
-    if (addedNode.textContent.includes('myLazyLoad')) {
+import {nodeMatchSelector, nodeContentStartsWith, hijackDOM} from './utils';
+
+const onNewNode = (addedNode: any) => {
+  if (nodeMatchSelector(addedNode, 'script:not([src]):not([id])')) {
+    if (nodeContentStartsWith(addedNode, 'var myLazyLoad')) {
       const request = new XMLHttpRequest();
       request.open(
         'GET',
@@ -9,13 +11,10 @@ const onNewNode = addedNode => {
       );
       request.send();
 
-      addedNode.textContent = request.responseText.replace(
-        '%NPROGRESS_URL%',
-        browser.runtime.getURL('vendors/nprogress/nprogress.min.js')
-      );
+      addedNode.textContent = request.responseText;
       return true;
     }
-  } else if (addedNode.nodeType === 1 && addedNode.matches('script[id="template"]')) {
+  } else if (nodeMatchSelector(addedNode, 'script[id="template"]')) {
     const request = new XMLHttpRequest();
     request.open(
       'GET',
@@ -26,7 +25,7 @@ const onNewNode = addedNode => {
 
     addedNode.textContent = request.responseText;
     return true;
-  } else if (addedNode.nodeType === 1 && addedNode.matches('div[id="regular-list-animes"]')) {
+  } else if (nodeMatchSelector(addedNode, 'div[id="regular-list-animes"]')) {
     addedNode.remove();
     return true;
   }

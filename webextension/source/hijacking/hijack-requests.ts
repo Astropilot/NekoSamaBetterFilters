@@ -1,6 +1,7 @@
+
 const tabData = new Map();
 
-function recordFrame(tabId, frameId, frameUrl) {
+function recordFrame(tabId: number, frameId: number, frameUrl: string) {
   if (!tabData.has(tabId)) {
     tabData.set(tabId, {
       frames: new Map()
@@ -12,7 +13,7 @@ function recordFrame(tabId, frameId, frameUrl) {
   });
 }
 
-function getUrlForTab(tabId) {
+function getUrlForTab(tabId: number) {
   const frameId = 0;
   if (tabData.has(tabId)) {
     if (tabData.get(tabId).frames.has(frameId)) {
@@ -35,7 +36,7 @@ browser.webRequest.onBeforeRequest.addListener(
     if (tabUrl && tabUrl.match(/\/anime(\?.*|)$/)) {
       if (details.url.startsWith('https://www.neko-sama.fr/js/nekosama-libs.js')) {
         return {
-          redirectUrl: browser.runtime.getURL('vendors/nekosama-libs.min.js')
+          cancel: true
         };
       }
     }

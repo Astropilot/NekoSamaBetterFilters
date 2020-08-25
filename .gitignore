@@ -88,9 +88,10 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# Database
-animes.db
-
+# Web Extension
 node_modules
-dist
 yarn.lock
+webextension/test/web-ext-profile/**
+!webextension/test/web-ext-profile/.gitkeep
+
+distribution/

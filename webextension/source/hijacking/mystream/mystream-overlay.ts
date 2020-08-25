@@ -1,6 +1,9 @@
-const onNewNode = addedNode => {
-  if (addedNode.nodeType === 1 && addedNode.matches('script:not([src]):not([type])')) {
-    if (addedNode.textContent.trim().startsWith('window.adblock')) {
+import {nodeMatchSelector, nodeContentStartsWith, hijackDOM} from '../utils';
+import {optionsStorage} from '../../options-storage';
+
+const onNewNode = (addedNode: any) => {
+  if (nodeMatchSelector(addedNode, 'script:not([src]):not([type])')) {
+    if (nodeContentStartsWith(addedNode, 'window.adblock')) {
       addedNode.textContent = addedNode.textContent.replace(
         'window.adblock = true;',
         'window.adblock = false;'
@@ -8,7 +11,8 @@ const onNewNode = addedNode => {
       return true;
     }
 
-    if (addedNode.textContent.trim().startsWith('window.') && !addedNode.textContent.trim().startsWith('window.HELP_IMPROVE_VIDEOJS')) {
+    if (nodeContentStartsWith(addedNode, 'window.') &&
+        !nodeContentStartsWith(addedNode, 'window.HELP_IMPROVE_VIDEOJS')) {
       addedNode.textContent = addedNode.textContent.replace(
         'var firstfired=!1',
         'var firstfired=!0'
@@ -23,14 +27,19 @@ const onNewNode = addedNode => {
     }
   }
 
+  if (nodeMatchSelector(addedNode, 'script[src^="https://inpagepush.com"]')) {
+    addedNode.src = '';
+    return true;
+  }
+
   return false;
 };
 
-async function hijackMyStream() {
+(async () => {
   const {adblock} = await optionsStorage.getAll();
 
   if (adblock) {
-    hijackDOM(document.documentElement, 2, onNewNode);
+    hijackDOM(document.documentElement, 3, onNewNode);
 
     document.addEventListener('DOMContentLoaded', () => {
       const overlay = document.querySelector('body > div[style]:empty');
@@ -39,6 +48,4 @@ async function hijackMyStream() {
       }
     });
   }
-}
-
-hijackMyStream();
+})();

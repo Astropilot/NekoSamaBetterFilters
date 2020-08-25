@@ -1,14 +1,20 @@
 // Changing DOM - Source: https://stackoverflow.com/a/59518023
 
-/* eslint no-unused-vars: ["error", { varsIgnorePattern: "[hijackDOM|runInPageContext]" }] */
+export function nodeMatchSelector(node: any, selector: string) {
+  return node.nodeType === 1 && node.matches(selector);
+}
 
-function hijackDOM(target, matches, nodeCallback) {
+export function nodeContentStartsWith(node: any, token: string) {
+  return node.textContent.trim().startsWith(token);
+}
+
+export function hijackDOM(target: any, matches: number, nodeCallback: (node: any) => boolean) {
   let hijackCounter = 0;
 
   new MutationObserver((mutations, observer) => {
     for (const mutation of mutations) {
       for (const addedNode of mutation.addedNodes) {
-        if (nodeCallback(addedNode) === true) {
+        if (nodeCallback(addedNode)) {
           hijackCounter++;
         }
       }
@@ -25,8 +31,8 @@ function hijackDOM(target, matches, nodeCallback) {
 // Sandbox Breaking
 // Source: Source: https://github.com/intoli/intoli-article-materials/blob/master/articles/sandbox-breakout/extension/sandbox-breakout.js
 
-function runInPageContext(method, autoRemove, ...args) {
-  const stringifiedMethod = method instanceof Function ? method.toString() : `() => { ${method} }`;
+export function runInPageContext(method: () => void | string, autoRemove: boolean, ...args: any[]) {
+  const stringifiedMethod: string = method instanceof Function ? method.toString() : `() => { ${method as string} }`;
 
   const stringifiedArgs = JSON.stringify(args);
 

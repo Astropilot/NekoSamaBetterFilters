@@ -1,1 +1,0 @@
-window.optionsStorage.syncForm('form');

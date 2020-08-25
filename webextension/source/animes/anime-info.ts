@@ -1,4 +1,5 @@
-const genreTags = document.querySelectorAll('.ui.tag > a.item');
+const genreTags: NodeListOf<HTMLAnchorElement> =
+  document.querySelectorAll('.ui.tag > a.item');
 
 genreTags.forEach(genreTag => {
   const filters = decodeURI(genreTag.href.split('#')[1]);
