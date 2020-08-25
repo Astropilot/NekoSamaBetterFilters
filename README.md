@@ -46,7 +46,6 @@ Voici la liste des fonctionnalités qu'elle apporte:
 
 * [Node.js](https://nodejs.org) v14 ou plus
 * [Python](https://www.python.org) 3+
-* [Gulp](https://gulpjs.com)
 * [Docker](https://www.docker.com) + [docker-compose](https://docs.docker.com/compose) (optionnel mais chaudement recommandé). Pour Windows vous avez [Docker Desktop](https://www.docker.com/products/docker-desktop)
 * [Elasticsearch](https://www.elastic.co/fr/elasticsearch/) si vous ne comptez pas utiliser Docker
 * Un navigateur comme [Firefox](https://www.mozilla.org/fr/firefox/new), [Chrome](https://www.google.fr/chrome) ou [Edge](https://www.microsoft.com/edge)
@@ -104,23 +103,35 @@ Vous pouvez soit les définir de plusieurs manières
 
 Pour compiler l'extension
 ```sh
+$ cd webextension/
 $ npm install
 $ npm run build
 ```
 
-Un dossier `dist/` est maintenant créé contenant tous les fichiers pour l'extension web. <br>
-Il vous suffit maintenant de charger l'application dans votre navigateur web:
+Un dossier `distribution/` est maintenant créé contenant tous les fichiers pour l'extension web. <br>
+Il vous suffit maintenant de charger l'application dans votre navigateur web.
+
+Vous pouvez utilisez les commandes suivantes pour ouvrir une instance de Firefox ou Chrome sur un profil séparé avec directement l'extension chargée et avec le site Neko-Sama.fr ouvert au démarrage:
+```sh
+# Pour lancer une instance de Chrome
+$ npm run start
+
+# Pour lancer une instance de Firefox
+$ npm run start:firefox
+```
+
+Sinon vous pouvez charger manuellement l'extension avec les instructions suivantes:
 
 * Firefox
     * Tapez `about:debugging` dans votre barre d'adresse
     * Allez dans l'onglet à gauche `Ce Firefox`
-    * Dans la rubrique `Extensions temporaires` cliquez sur `Charger un module complémentaire temporaire...` et naviguez dans le dossier `dist/` et choisissez le fichier `manifest.json` puis `Ouvrir`
+    * Dans la rubrique `Extensions temporaires` cliquez sur `Charger un module complémentaire temporaire...` et naviguez dans le dossier `distribution/` et choisissez le fichier `manifest.json` puis `Ouvrir`
     * L'extension est maintenant chargée et utilisable
 
 * Chrome / Edge
     * Rendez-vous sur l'adresse `chrome://extensions/` pour Chrome ou `edge://extensions/` pour Edge
     * Activer le `Mode développeur`
-    * Cliquez sur `Charger l'extension non empaquetée` / `Charger l'élément décompressé` puis naviguez jusque dans le dossier `dist/` et faites OK
+    * Cliquez sur `Charger l'extension non empaquetée` / `Charger l'élément décompressé` puis naviguez jusque dans le dossier `distribution/` et faites OK
     * L'extension est maintenant chargée et utilisable
 
 L'extension utilise l'API hébergée, pour la faire utiliser votre API locale, rendez-vous dans le fichier `webextension/animes/better-filters.js` et changez le hostname par `127.0.0.1:8000` en HTTP
