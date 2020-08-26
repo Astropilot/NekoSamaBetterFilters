@@ -25,7 +25,7 @@ const yearSortingMenu = `
 const yearFilter = `
   <div class="item">
     <p class="title">Année</p>
-    <div id="year-dropdown" data-filter="year" class="ui dropdown fluid search button uppercase" tabindex="0">
+    <div id="year-dropdown" data-filter="year" class="ui dropdown fluid scrolling button uppercase" tabindex="0">
       <span class="text text-uppercase">TOUTES</span> <i class="dropdown icon"></i>
       <div class="menu uppercase transition hidden" tabindex="-1">
         <div data-value="null" class="item active selected">TOUTES</div>

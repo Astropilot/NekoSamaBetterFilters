@@ -76,7 +76,8 @@
     ],
     "ignores": [
       "source/vendors",
-      "distribution"
+      "distribution",
+      "test"
     ],
     "globals": [
       "browser",

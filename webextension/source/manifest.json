@@ -5,9 +5,11 @@
   "description": "Une extension qui corrige et rend pleinement fonctionnelle la page d'animes de Neko-Sama.fr",
   "author": "Astropilot",
   "homepage_url": "https://github.com/Astropilot/NekoSamaBetterFilters",
+  "minimum_chrome_version": "74",
   "browser_specific_settings": {
     "gecko": {
-      "id": "refined_nekosama@astropilot.github.io"
+      "id": "refined_nekosama@astropilot.github.io",
+      "strict_min_version": "67.0"
     }
   },
   "icons": {
