@@ -44,11 +44,14 @@ Voici la liste des fonctionnalités qu'elle apporte:
 
 ### Prérequis
 
-* [Node.js](https://nodejs.org) v14 ou plus
+#### Extension web
+* [Node.js](https://nodejs.org) v14+ et [npm.js](https://www.npmjs.com) v6+
+* Un navigateur comme [Firefox](https://www.mozilla.org/fr/firefox/new), [Chrome](https://www.google.fr/chrome) ou [Edge](https://www.microsoft.com/edge)
+
+#### Web API
 * [Python](https://www.python.org) 3+
 * [Docker](https://www.docker.com) + [docker-compose](https://docs.docker.com/compose) (optionnel mais chaudement recommandé). Pour Windows vous avez [Docker Desktop](https://www.docker.com/products/docker-desktop)
 * [Elasticsearch](https://www.elastic.co/fr/elasticsearch/) si vous ne comptez pas utiliser Docker
-* Un navigateur comme [Firefox](https://www.mozilla.org/fr/firefox/new), [Chrome](https://www.google.fr/chrome) ou [Edge](https://www.microsoft.com/edge)
 
 ### Lancer l'API de recherche
 
