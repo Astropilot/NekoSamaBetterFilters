@@ -16,7 +16,7 @@
     "128": "icons/icon128.png"
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "options/options.html",
     "chrome_style": true
   },
   "permissions": [

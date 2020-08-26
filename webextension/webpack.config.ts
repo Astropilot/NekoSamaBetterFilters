@@ -23,7 +23,7 @@ const config: Configuration = {
     'hijacking/pstream/pstream-requests',
     'hijacking/hijack-js',
     'hijacking/hijack-requests',
-    'options'
+    'options/options'
   ].map(name => [name, `./source/${name}`])),
   output: {
     path: path.join(__dirname, 'distribution'),

@@ -1,4 +1,4 @@
-import {optionsStorage} from './options-storage';
+import {optionsStorage} from '../options-storage';
 
 const perms = [
   '*://*.inpagepush.com/*',
