@@ -16,15 +16,13 @@ Refined Neko-Sama.fr</h4>
 </p>
 
 <p align="center">
-    <a href="#chrome" target="_blank"><img src="https://imgur.com/3C4iKO0.png" width="64" height="64"></a>
-    <a href="#firefox" target="_blank"><img src="https://imgur.com/ihXsdDO.png" width="64" height="64"></a>
-    <a href="#edge" target="_blank"><img src="https://imgur.com/vMcaXaw.png" width="64" height="64"></a>
-    <a href="#vivaldi" target="_blank"><img src="https://imgur.com/EuDp4vP.png" width="64" height="64"></a>
-    <a href="#brave" target="_blank"><img src="https://imgur.com/z8yjLZ2.png" width="64" height="64"></a>
-    <a href="#tor" target="_blank"><img src="https://imgur.com/MQYBSrD.png" width="64" height="64"></a>
+    <a href="https://chrome.google.com/webstore/detail/refined-neko-samafr/bkhfdimpfnkdmegkcniknicnpbpeklag"><img src="https://imgur.com/3C4iKO0.png" width="64" height="64"></a>
+    <a href="https://addons.mozilla.org/fr/firefox/addon/refined-neko-sama/"><img src="https://imgur.com/ihXsdDO.png" width="64" height="64"></a>
+    <a href="#edge"><img src="https://imgur.com/vMcaXaw.png" width="64" height="64"></a>
+    <a href="https://chrome.google.com/webstore/detail/refined-neko-samafr/bkhfdimpfnkdmegkcniknicnpbpeklag"><img src="https://imgur.com/EuDp4vP.png" width="64" height="64"></a>
+    <a href="https://chrome.google.com/webstore/detail/refined-neko-samafr/bkhfdimpfnkdmegkcniknicnpbpeklag"><img src="https://imgur.com/z8yjLZ2.png" width="64" height="64"></a>
+    <a href="https://addons.mozilla.org/fr/firefox/addon/refined-neko-sama/"><img src="https://imgur.com/MQYBSrD.png" width="64" height="64"></a>
 </p>
-
-> :construction: **Pas encore de release**: La première version ne devrait plus tarder à arriver !
 
 ## A propos
 
