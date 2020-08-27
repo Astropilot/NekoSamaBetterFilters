@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/Astropilot/NekoSamaBetterFilters/master/webextension/icons/icon128.png" alt="Testify" width="128">
+  <img src="https://raw.githubusercontent.com/Astropilot/NekoSamaBetterFilters/master/webextension/source/icons/icon128.png" alt="Testify" width="128">
 </h1>
 
 <h4 align="center">
