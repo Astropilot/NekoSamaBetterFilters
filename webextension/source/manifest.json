@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Refined Neko-Sama.fr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Une extension qui corrige et rend pleinement fonctionnelle la page d'animes de Neko-Sama.fr",
   "author": "Astropilot",
   "homepage_url": "https://github.com/Astropilot/NekoSamaBetterFilters",
