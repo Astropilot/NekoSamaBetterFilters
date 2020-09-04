@@ -15,13 +15,17 @@ optionsStorage.syncForm('form')
         if (adblock.checked) {
           browser.permissions.request({origins: perms})
             .then(async response => {
-              if (!response) {
+              if (response) {
+                browser.runtime.sendMessage({adblock: true});
+              } else {
                 await optionsStorage.set({adblock: false});
                 adblock.checked = false;
+                browser.runtime.sendMessage({adblock: false});
               }
             });
         } else {
           browser.permissions.remove({origins: perms});
+          browser.runtime.sendMessage({adblock: false});
         }
       });
     }

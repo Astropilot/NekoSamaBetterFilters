@@ -27,11 +27,6 @@ const onNewNode = (addedNode: any) => {
     }
   }
 
-  if (nodeMatchSelector(addedNode, 'script[src^="https://inpagepush.com"]')) {
-    addedNode.src = '';
-    return true;
-  }
-
   return false;
 };
 
@@ -39,7 +34,7 @@ const onNewNode = (addedNode: any) => {
   const {adblock} = await optionsStorage.getAll();
 
   if (adblock) {
-    hijackDOM(document.documentElement, 3, onNewNode);
+    hijackDOM(document.documentElement, 2, onNewNode);
 
     document.addEventListener('DOMContentLoaded', () => {
       const overlay = document.querySelector('body > div[style]:empty');

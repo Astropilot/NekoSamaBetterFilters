@@ -21,16 +21,6 @@ const onNewNode = (addedNode: any) => {
     }
   }
 
-  if (nodeMatchSelector(addedNode, 'script[async][src^="https://fbpopr.com"]')) {
-    addedNode.src = '';
-    return true;
-  }
-
-  if (nodeMatchSelector(addedNode, 'script[src^="https://sp4.myvidbid.ovh"]')) {
-    addedNode.src = '';
-    return true;
-  }
-
   return false;
 };
 
@@ -38,11 +28,11 @@ const onNewNode = (addedNode: any) => {
   const {adblock} = await optionsStorage.getAll();
 
   if (adblock) {
-    hijackDOM(document.documentElement, 4, onNewNode);
+    hijackDOM(document.documentElement, 2, onNewNode);
 
     const sendEvent = () => {
       jQuery(document).on('ready', () => {
-        jQuery('.yet-another-overlay').remove();
+        jQuery('.bruh-overlay').remove();
         jQuery(document).trigger('manual-trigger');
       });
     };
