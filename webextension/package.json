@@ -27,6 +27,7 @@
     "@types/semantic-ui-dropdown": "^2.2.3",
     "@types/semantic-ui-transition": "^2.2.2",
     "@types/terser-webpack-plugin": "^4.1.0",
+    "@types/video.js": "^7.3.10",
     "chrome-webstore-upload-cli": "^1.2.0",
     "copy-webpack-plugin": "^6.1.0",
     "expose-loader": "^1.0.0",
@@ -39,7 +40,7 @@
     "ts-loader": "^8.0.3",
     "ts-node": "^9.0.0",
     "type-fest": "^0.16.0",
-    "typescript": "^4.1.0-dev.20200903",
+    "typescript": "^4.1.0-dev.20200910",
     "web-ext": "^5.0.0",
     "web-ext-submit": "^5.0.2",
     "webpack": "^4.44.1",
@@ -49,12 +50,13 @@
   "dependencies": {
     "jquery": "^3.5.1",
     "jquery.loadtemplate": "^1.5.10",
+    "npm-check-updates": "^8.1.1",
     "nprogress": "^0.2.0",
     "semantic-ui-dropdown": "^2.4.1",
     "semantic-ui-transition": "^2.3.1",
     "vanilla-lazyload": "^17.1.2",
-    "webext-base-css": "^1.1.0",
-    "webext-options-sync": "^1.2.3",
+    "webext-base-css": "^1.1.1",
+    "webext-options-sync": "^2.0.0",
     "webextension-polyfill": "^0.6.0"
   },
   "webExt": {
@@ -82,7 +84,8 @@
     "globals": [
       "browser",
       "$",
-      "jQuery"
+      "jQuery",
+      "videojs"
     ],
     "rules": {
       "import/no-unassigned-import": "off",

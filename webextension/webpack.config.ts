@@ -16,6 +16,7 @@ const config: Configuration = {
   },
   entry: Object.fromEntries([
     'animes/anime-info',
+    'animes/anime-episode',
     'animes/better-filters',
     'hijacking/mystream/mystream-overlay',
     'hijacking/mystream/mystream-requests',

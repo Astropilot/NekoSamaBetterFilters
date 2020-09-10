@@ -69,6 +69,18 @@
       ]
     },
     {
+      "matches": [
+        "https://www.neko-sama.fr/anime/episode/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "animes/anime-episode.js"
+      ],
+      "css": [
+        "animes/episode.css"
+      ]
+    },
+    {
       "all_frames": true,
       "matches": [
         "https://www.pstream.net/e/*"
