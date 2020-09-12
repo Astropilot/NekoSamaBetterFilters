@@ -39,7 +39,8 @@
       "vendors/browser-polyfill.js",
       "hijacking/hijack-requests.js",
       "hijacking/mystream/mystream-requests.js",
-      "hijacking/pstream/pstream-requests.js"
+      "hijacking/pstream/pstream-requests.js",
+      "background.js"
     ],
     "persistent": true
   },
@@ -74,6 +75,7 @@
       ],
       "run_at": "document_idle",
       "js": [
+        "vendors/browser-polyfill.js",
         "animes/anime-episode.js"
       ],
       "css": [

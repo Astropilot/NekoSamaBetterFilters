@@ -17,7 +17,9 @@ browser.webRequest.onBeforeRequest.addListener(
 );
 
 browser.runtime.onMessage.addListener(message => {
-  adblock = message.adblock;
+  if (Object.prototype.hasOwnProperty.call(message, 'adblock')) {
+    adblock = message.adblock;
+  }
 });
 
 (async () => {

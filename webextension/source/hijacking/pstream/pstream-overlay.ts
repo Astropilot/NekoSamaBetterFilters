@@ -1,5 +1,6 @@
 import {nodeMatchSelector, nodeContentStartsWith, hijackDOM, runInPageContext} from '../utils';
 import {optionsStorage} from '../../options-storage';
+import $ from 'jquery';
 
 interface VideoSource {
   type: string;
@@ -10,6 +11,13 @@ interface VideoSource {
 
 declare const vsuri: any;
 
+async function fetchDownloads(scriptContent: string) {
+  var url = scriptContent.match(/vsuri *= *'(.*)';/)!![1];
+  $.getJSON(url, async function(sources) {
+    browser.runtime.sendMessage({to: 'anime-episode', msg: sources});
+  });
+}
+
 const onNewNode = (addedNode: any) => {
   if (nodeMatchSelector(addedNode, 'script[data-cfasync="false"]')) {
     addedNode.textContent = '';
@@ -18,6 +26,7 @@ const onNewNode = (addedNode: any) => {
 
   if (nodeMatchSelector(addedNode, 'script[type="text/javascript"]')) {
     if (nodeContentStartsWith(addedNode, 'var vsuri')) {
+      fetchDownloads(addedNode.textContent);
       addedNode.textContent = addedNode.textContent.replace(
         'var safeloadPBAFS = false;',
         'var safeloadPBAFS = true;'
