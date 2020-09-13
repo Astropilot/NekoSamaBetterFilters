@@ -44,26 +44,27 @@ browser.webRequest.onBeforeRequest.addListener(
 
     return {};
   },
-  {urls: ['*://*.neko-sama.fr/*']},
+  { urls: ['*://*.neko-sama.fr/*'] },
   ['blocking']
 );
 
 /* MyStream Requests */
 
 browser.webRequest.onBeforeRequest.addListener(
-  () => { return {cancel: true} },
-  {urls: ['*://*.inpagepush.com/*']},
+  () => { return { cancel: true } },
+  { urls: ['*://*.inpagepush.com/*'] },
   ['blocking']
 );
 
 /* PStream Requests */
 
 browser.webRequest.onBeforeRequest.addListener(
-  () => { return {cancel: true} },
+  () => { return { cancel: true } },
   {
     urls: [
       '*://*.myvidbid.ovh/*',
       '*://*.fbpopr.com/*'
-    ]},
+    ]
+  },
   ['blocking']
 );

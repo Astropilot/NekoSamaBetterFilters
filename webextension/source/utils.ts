@@ -25,7 +25,7 @@ export function hijackDOM(target: any, matches: number, nodeCallback: (node: any
       }
     }
   })
-    .observe(target, {childList: true, subtree: true});
+    .observe(target, { childList: true, subtree: true });
 }
 
 // Sandbox Breaking

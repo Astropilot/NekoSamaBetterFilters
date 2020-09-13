@@ -2,7 +2,7 @@
 
 import path from 'path';
 
-import {Configuration} from 'webpack';
+import { Configuration } from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -48,6 +48,14 @@ const config: Configuration = {
         options: {
           exposes: ['$', 'jQuery']
         }
+      },
+      {
+        test: /dropdown\.js$/, // Bypassing the Sandbox object that cause crash in the dropdown library
+        loader: 'string-replace-loader',
+        options: {
+          search: '$.fn.dropdown = function(parameters) {',
+          replace: '$.fn.dropdown = function(parameters) { window = window.window;',
+        }
       }
     ]
   },
@@ -67,10 +75,10 @@ const config: Configuration = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        {from: './webext-base-css/webext-base.css', to: './vendors/webext-base.css', context: 'node_modules'},
-        {from: './nprogress/nprogress.css', to: './vendors/nprogress.css', context: 'node_modules'},
-        {from: './webextension-polyfill/dist/browser-polyfill.js', to: './vendors/browser-polyfill.js', context: 'node_modules'},
-        {from: './webextension-polyfill/dist/browser-polyfill.js.map', to: './vendors/browser-polyfill.js.map', context: 'node_modules'}
+        { from: './webext-base-css/webext-base.css', to: './vendors/webext-base.css', context: 'node_modules' },
+        { from: './nprogress/nprogress.css', to: './vendors/nprogress.css', context: 'node_modules' },
+        { from: './webextension-polyfill/dist/browser-polyfill.js', to: './vendors/browser-polyfill.js', context: 'node_modules' },
+        { from: './webextension-polyfill/dist/browser-polyfill.js.map', to: './vendors/browser-polyfill.js.map', context: 'node_modules' }
       ]
     }),
     new SizePlugin({

@@ -1,5 +1,5 @@
-import {nodeMatchSelector, nodeContentStartsWith, hijackDOM, runInPageContext} from '../../utils';
-import {VideoSource, playerOverlay} from '../host-utils';
+import { nodeMatchSelector, nodeContentStartsWith, hijackDOM, runInPageContext } from '../../utils';
+import { VideoSource, playerOverlay } from '../host-utils';
 import $ from 'jquery';
 
 const fetchDownloads = (content: string): string => {
@@ -15,7 +15,7 @@ const fetchDownloads = (content: string): string => {
   const result = eval(String.raw`${toExecute}`);
 
   const url = result.match(/https:\/\/.*\.mp4/)[0];
-  browser.runtime.sendMessage({nekoFrom: 'mystream-overlay', nekoTo: 'anime-episode', msg: {sources: {720: url}}});
+  browser.runtime.sendMessage({ nekoFrom: 'mystream-overlay', nekoTo: 'anime-episode', msg: { sources: { 720: url } } });
 
   return url;
 }
@@ -31,7 +31,7 @@ const onNewNode = (addedNode: any) => {
     }
 
     if (nodeContentStartsWith(addedNode, 'window.') &&
-        !nodeContentStartsWith(addedNode, 'window.HELP_IMPROVE_VIDEOJS')) {
+      !nodeContentStartsWith(addedNode, 'window.HELP_IMPROVE_VIDEOJS')) {
       addedNode.textContent = addedNode.textContent.replace(
         'var firstfired=!1',
         'var firstfired=!0'

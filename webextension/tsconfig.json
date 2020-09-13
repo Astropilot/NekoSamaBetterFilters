@@ -5,8 +5,5 @@
     "declaration": false,
     "esModuleInterop": true
   },
-  "include": [
-    "source",
-    "webpack.config.ts"
-  ]
+  "include": ["source", "webpack.config.ts"]
 }

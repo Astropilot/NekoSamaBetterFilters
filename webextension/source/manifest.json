@@ -30,7 +30,8 @@
     "*://embed.mystream.to/*",
     "*://*.inpagepush.com/*",
     "*://*.myvidbid.ovh/*",
-    "*://*.fbpopr.com/*"
+    "*://*.fbpopr.com/*",
+    "*://nekosama.codexus.fr/*"
   ],
   "background": {
     "scripts": [
@@ -48,8 +49,18 @@
       ],
       "run_at": "document_start",
       "js": [
-        "vendors/browser-polyfill.js",
         "nekosama/search/hijack-js.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.neko-sama.fr/anime",
+        "https://www.neko-sama.fr/anime?*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "vendors/browser-polyfill.js",
+        "nekosama/search/better-filters.js"
       ],
       "css": [
         "nekosama/search/style.css",
@@ -103,7 +114,6 @@
     }
   ],
   "web_accessible_resources": [
-    "nekosama/search/better-filters.js",
     "nekosama/search/template.html"
   ]
 }

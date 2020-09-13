@@ -1,4 +1,4 @@
-import LazyLoad from 'vanilla-lazyload';
+import LazyLoad, { ILazyLoadInstance } from 'vanilla-lazyload';
 import NProgress from 'nprogress';
 import $ from 'jquery';
 
@@ -42,9 +42,9 @@ const noResultPage = `
 `;
 
 let filters = new URLSearchParams(window.location.search);
-const myLazyLoad = new LazyLoad();
+let myLazyLoad: ILazyLoadInstance;
 
-function updateFilter(filter: string, value: string|string[]) {
+function updateFilter(filter: string, value: string | string[]) {
   if (value.length === 0) {
     filters.delete(filter);
   } else {
@@ -61,13 +61,13 @@ function updateFilter(filter: string, value: string|string[]) {
 function fetchAnimes() {
   NProgress.start();
   $.getJSON('https://nekosama.codexus.fr/api/animes', filters.toString(), (data: any) => {
-    $('#ajax-list-animes').loadTemplate($('#template'), data.animes, {
-      isFile: false,
+    $('#ajax-list-animes').loadTemplate(browser.runtime.getURL('nekosama/search/template.html'), data.animes, {
+      isFile: true,
       complete: () => {
         NProgress.done();
+        myLazyLoad.update();
       }
     });
-    myLazyLoad.update();
 
     if (data.animes.length === 0) {
       NProgress.done();
@@ -112,7 +112,8 @@ function fetchAnimes() {
   });
 }
 
-$(document).ready(() => {
+$(() => {
+  myLazyLoad = new LazyLoad();
   // Ajout des filtres supplémentaires
   $('#sort-dropdown').attr('data-filter', 'sort');
   $('#sort-dropdown > .menu').append(yearSortingMenu);
@@ -126,15 +127,9 @@ $(document).ready(() => {
     $('#filters > .item.genres')
       .before(yearFilter.replace('%YEARS%', yearsHtml));
 
-    ['sort', 'type', 'status', 'year'].forEach(filter => {
-      if (filters.has(filter)) {
-        $(`.ui.dropdown[data-filter="${filter}"]`)
-          .dropdown('set selected', filters.get(filter));
-      }
-    });
-
     // Dropdown filters
     $('.ui.dropdown').dropdown({
+      context: $(window.window) as any, // Bypassing the Sandbox object that cause crash in the dropdown library
       onChange(value: string) {
         if ($(this).attr('data-filter') !== undefined) {
           let actualValue = 'null';
@@ -151,6 +146,13 @@ $(document).ready(() => {
         }
       }
     });
+
+    ['sort', 'type', 'status', 'year'].forEach(filter => {
+      if (filters.has(filter)) {
+        $(`.ui.dropdown[data-filter="${filter}"]`)
+          .dropdown('set selected', filters.get(filter));
+      }
+    });
   });
 
   // Suppression de la partie legacy (On force le full ajax)
@@ -163,7 +165,7 @@ $(document).ready(() => {
     .after('<div id="ajax-pagination-wrapper"></div>').remove();
 
   // Genres Pop Out
-  $('.genres .button').click(() => {
+  $('.genres .button').on('click', () => {
     if ($('.genres-pop-out').is(':visible')) {
       $('.genres-pop-out').css('display', 'none');
     } else {
@@ -171,7 +173,7 @@ $(document).ready(() => {
     }
   });
 
-  $('.genres-pop-out .item').click(function (this: any) {
+  $('.genres-pop-out .item').on('click', function (this: any) {
     $(this).toggleClass('active');
 
     let genres: string[] = [];

@@ -1,4 +1,4 @@
-import {runInPageContext} from '../../utils';
+import { runInPageContext } from '../../utils';
 import $ from 'jquery';
 import NProgress from 'nprogress';
 import 'semantic-ui-transition/transition';
@@ -11,6 +11,7 @@ interface Episode {
   url: string;
   url_image: string;
 }
+declare const video: any;
 
 let episodes: Episode[];
 let currentEpisode: number;
@@ -32,7 +33,7 @@ browser.runtime.onMessage.addListener(message => {
   const downloads = message.sources;
 
   let items = '';
-  const host = $('#host-dropdown > .text').contents().filter(function(){
+  const host = $('#host-dropdown > .text').contents().filter(function () {
     return this.nodeType == 3;
   })[0].nodeValue || '';
 
@@ -51,12 +52,12 @@ browser.runtime.onMessage.addListener(message => {
   }, true);
 });
 
-browser.runtime.sendMessage({nekoFrom: 'anime-episode'});
+browser.runtime.sendMessage({ nekoFrom: 'anime-episode' });
 
-window.onmessage = function(event: MessageEvent<any>) {
+window.onmessage = function (event: MessageEvent<any>) {
   if (Object.prototype.hasOwnProperty.call(event.data, 'episodes')) {
     ($('#un_episode')[0] as HTMLIFrameElement).contentWindow!!.postMessage(
-      {isPrevious: currentEpisode > 0, isNext: currentEpisode < episodes.length - 1},
+      { isPrevious: currentEpisode > 0, isNext: currentEpisode < episodes.length - 1 },
       '*'
     )
     return;
@@ -114,18 +115,24 @@ window.onmessage = function(event: MessageEvent<any>) {
       `);
     }
 
-    if (event.data.host === 'pstream') {
-      const hostUrl = data.match(/video\[0] = '(.*(pstream|mystream).*)'/)!![1];
+    const hosts: any = {
+      pstream: data.match(/video\[0] = '(.*(pstream|mystream).*)'/)!![1],
+      mystream: data.match(/video\[1] = '(.*(pstream|mystream).*)'/)!![1]
+    };
 
-      browser.runtime.sendMessage({nekoTo: 'pstream-overlay', msg: {fetch: hostUrl}});
-    } else if (event.data.host === 'mystream') {
-      const hostUrl = data.match(/video\[1] = '(.*(pstream|mystream).*)'/)!![1];
+    runInPageContext((pstream: string, mystream: string) => {
+      video[0] = pstream;
+      video[1] = mystream;
+    },
+      true,
+      hosts.pstream,
+      hosts.mystream
+    )
 
-      browser.runtime.sendMessage({nekoTo: 'mystream-overlay', msg: {fetch: hostUrl}});
-    }
+    browser.runtime.sendMessage({ nekoTo: 'pstream-overlay', msg: { fetch: hosts[event.data.host] } });
 
     ($('#un_episode')[0] as HTMLIFrameElement).contentWindow!!.postMessage(
-      {isPrevious: currentEpisode > 0, isNext: currentEpisode < episodes.length - 1},
+      { isPrevious: currentEpisode > 0, isNext: currentEpisode < episodes.length - 1 },
       '*'
     )
 
@@ -136,7 +143,7 @@ window.onmessage = function(event: MessageEvent<any>) {
 const animeUrl = $('.details > .info > h1 > a').attr('href')!!;
 
 currentEpisode = parseInt($('.details > .info > h2').text().match(/\d+/)!![0], 10) - 1;
-$.get('https://www.neko-sama.fr' + animeUrl, function(response: string) {
+$.get('https://www.neko-sama.fr' + animeUrl, function (response: string) {
   const dataEpisodes = response.match(/var episodes = (\[.*\])/)!![1];
 
   episodes = JSON.parse(dataEpisodes);
