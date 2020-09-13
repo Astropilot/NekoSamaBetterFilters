@@ -1,4 +1,4 @@
-import {nodeMatchSelector, nodeContentStartsWith, hijackDOM} from './utils';
+import {nodeMatchSelector, nodeContentStartsWith, hijackDOM} from '../../utils';
 
 const onNewNode = (addedNode: any) => {
   if (nodeMatchSelector(addedNode, 'script:not([src]):not([id])')) {
@@ -6,7 +6,7 @@ const onNewNode = (addedNode: any) => {
       const request = new XMLHttpRequest();
       request.open(
         'GET',
-        browser.runtime.getURL('animes/better-filters.js'),
+        browser.runtime.getURL('nekosama/search/better-filters.js'),
         false
       );
       request.send();
@@ -18,7 +18,7 @@ const onNewNode = (addedNode: any) => {
     const request = new XMLHttpRequest();
     request.open(
       'GET',
-      browser.runtime.getURL('animes/template.html'),
+      browser.runtime.getURL('nekosama/search/template.html'),
       false
     );
     request.send();

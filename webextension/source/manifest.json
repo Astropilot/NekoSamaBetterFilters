@@ -27,9 +27,7 @@
     "webRequestBlocking",
     "*://*.neko-sama.fr/*",
     "*://www.pstream.net/e/*",
-    "*://embed.mystream.to/*"
-  ],
-  "optional_permissions": [
+    "*://embed.mystream.to/*",
     "*://*.inpagepush.com/*",
     "*://*.myvidbid.ovh/*",
     "*://*.fbpopr.com/*"
@@ -37,9 +35,7 @@
   "background": {
     "scripts": [
       "vendors/browser-polyfill.js",
-      "hijacking/hijack-requests.js",
-      "hijacking/mystream/mystream-requests.js",
-      "hijacking/pstream/pstream-requests.js",
+      "web-request.js",
       "background.js"
     ],
     "persistent": true
@@ -53,10 +49,10 @@
       "run_at": "document_start",
       "js": [
         "vendors/browser-polyfill.js",
-        "hijacking/hijack-js.js"
+        "nekosama/search/hijack-js.js"
       ],
       "css": [
-        "animes/style.css",
+        "nekosama/search/style.css",
         "vendors/nprogress.css"
       ]
     },
@@ -66,7 +62,7 @@
       ],
       "run_at": "document_idle",
       "js": [
-        "animes/anime-info.js"
+        "nekosama/anime/anime-info.js"
       ]
     },
     {
@@ -76,10 +72,11 @@
       "run_at": "document_idle",
       "js": [
         "vendors/browser-polyfill.js",
-        "animes/anime-episode.js"
+        "nekosama/episode/anime-episode.js"
       ],
       "css": [
-        "animes/episode.css"
+        "nekosama/episode/episode.css",
+        "vendors/nprogress.css"
       ]
     },
     {
@@ -89,7 +86,8 @@
       ],
       "run_at": "document_start",
       "js": [
-        "hijacking/pstream/pstream-overlay.js"
+        "vendors/browser-polyfill.js",
+        "hosts/pstream/pstream-overlay.js"
       ]
     },
     {
@@ -99,12 +97,13 @@
       ],
       "run_at": "document_start",
       "js": [
-        "hijacking/mystream/mystream-overlay.js"
+        "vendors/browser-polyfill.js",
+        "hosts/mystream/mystream-overlay.js"
       ]
     }
   ],
   "web_accessible_resources": [
-    "animes/better-filters.js",
-    "animes/template.html"
+    "nekosama/search/better-filters.js",
+    "nekosama/search/template.html"
   ]
 }

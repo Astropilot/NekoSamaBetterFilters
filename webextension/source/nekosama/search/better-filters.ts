@@ -2,7 +2,7 @@ import LazyLoad from 'vanilla-lazyload';
 import NProgress from 'nprogress';
 import $ from 'jquery';
 
-import '../vendors/jquery.simplepagination';
+import '../../vendors/jquery.simplepagination';
 import 'jquery.loadtemplate';
 import 'semantic-ui-transition/transition';
 import 'semantic-ui-dropdown/dropdown';

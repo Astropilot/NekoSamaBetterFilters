@@ -1,10 +1,10 @@
-const msgSenders: { [key: string]: any } = {};
+const senders: { [key: string]: any } = {};
 
-chrome.runtime.onMessage.addListener((msg, sender) => {
-  if (msg.from) {
-      msgSenders[msg.from] = sender.tab!!.id;
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (message.nekoFrom && sender.tab && sender.tab.id) {
+      senders[message.nekoFrom] = sender.tab!!.id;
   }
-  if (msg.to) {
-    chrome.tabs.sendMessage(msgSenders[msg.to], msg.msg);
+  if (message.nekoTo && message.nekoTo in senders) {
+    chrome.tabs.sendMessage(senders[message.nekoTo], message.msg);
   }
 });

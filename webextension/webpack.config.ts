@@ -15,17 +15,15 @@ const config: Configuration = {
     builtAt: true
   },
   entry: Object.fromEntries([
-    'animes/anime-info',
-    'animes/anime-episode',
-    'animes/better-filters',
-    'hijacking/mystream/mystream-overlay',
-    'hijacking/mystream/mystream-requests',
-    'hijacking/pstream/pstream-overlay',
-    'hijacking/pstream/pstream-requests',
-    'hijacking/hijack-js',
-    'hijacking/hijack-requests',
+    'nekosama/anime/anime-info',
+    'nekosama/episode/anime-episode',
+    'nekosama/search/better-filters',
+    'nekosama/search/hijack-js',
+    'hosts/mystream/mystream-overlay',
+    'hosts/pstream/pstream-overlay',
     'options/options',
-    'background'
+    'background',
+    'web-request'
   ].map(name => [name, `./source/${name}`])),
   output: {
     path: path.join(__dirname, 'distribution'),
