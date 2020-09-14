@@ -1,4 +1,5 @@
 import LazyLoad, { ILazyLoadInstance } from 'vanilla-lazyload';
+import * as browser from 'webextension-polyfill';
 import NProgress from 'nprogress';
 import $ from 'jquery';
 

@@ -17,12 +17,10 @@ const config: Configuration = {
   entry: Object.fromEntries([
     'nekosama/anime/anime-info',
     'nekosama/episode/anime-episode',
+    'nekosama/episode/hijack-js',
     'nekosama/search/better-filters',
     'nekosama/search/hijack-js',
-    'hosts/mystream/mystream-overlay',
-    'hosts/pstream/pstream-overlay',
     'options/options',
-    'background',
     'web-request'
   ].map(name => [name, `./source/${name}`])),
   output: {
@@ -77,8 +75,8 @@ const config: Configuration = {
       patterns: [
         { from: './webext-base-css/webext-base.css', to: './vendors/webext-base.css', context: 'node_modules' },
         { from: './nprogress/nprogress.css', to: './vendors/nprogress.css', context: 'node_modules' },
-        { from: './webextension-polyfill/dist/browser-polyfill.js', to: './vendors/browser-polyfill.js', context: 'node_modules' },
-        { from: './webextension-polyfill/dist/browser-polyfill.js.map', to: './vendors/browser-polyfill.js.map', context: 'node_modules' }
+        { from: './video.js/dist/video-js.css', to: './vendors/video-js.css', context: 'node_modules' },
+        { from: './@silvermine/videojs-quality-selector/dist/css/quality-selector.css', to: './vendors/quality-selector.css', context: 'node_modules' }
       ]
     }),
     new SizePlugin({

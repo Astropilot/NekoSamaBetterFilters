@@ -12,6 +12,7 @@ idna==2.10
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
+py-mini-racer==0.3.0
 Pygments==2.6.1
 python-dotenv==0.14.0
 pytz==2020.1

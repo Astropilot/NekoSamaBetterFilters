@@ -1,3 +1,5 @@
+import * as browser from 'webextension-polyfill';
+
 /* Neko-Sama Requests */
 
 const tabData = new Map();
@@ -45,26 +47,5 @@ browser.webRequest.onBeforeRequest.addListener(
     return {};
   },
   { urls: ['*://*.neko-sama.fr/*'] },
-  ['blocking']
-);
-
-/* MyStream Requests */
-
-browser.webRequest.onBeforeRequest.addListener(
-  () => { return { cancel: true } },
-  { urls: ['*://*.inpagepush.com/*'] },
-  ['blocking']
-);
-
-/* PStream Requests */
-
-browser.webRequest.onBeforeRequest.addListener(
-  () => { return { cancel: true } },
-  {
-    urls: [
-      '*://*.myvidbid.ovh/*',
-      '*://*.fbpopr.com/*'
-    ]
-  },
   ['blocking']
 );

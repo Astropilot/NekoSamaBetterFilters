@@ -26,18 +26,11 @@
     "webRequest",
     "webRequestBlocking",
     "*://*.neko-sama.fr/*",
-    "*://www.pstream.net/e/*",
-    "*://embed.mystream.to/*",
-    "*://*.inpagepush.com/*",
-    "*://*.myvidbid.ovh/*",
-    "*://*.fbpopr.com/*",
     "*://nekosama.codexus.fr/*"
   ],
   "background": {
     "scripts": [
-      "vendors/browser-polyfill.js",
-      "web-request.js",
-      "background.js"
+      "web-request.js"
     ],
     "persistent": true
   },
@@ -59,7 +52,6 @@
       ],
       "run_at": "document_idle",
       "js": [
-        "vendors/browser-polyfill.js",
         "nekosama/search/better-filters.js"
       ],
       "css": [
@@ -82,34 +74,22 @@
       ],
       "run_at": "document_idle",
       "js": [
-        "vendors/browser-polyfill.js",
         "nekosama/episode/anime-episode.js"
       ],
       "css": [
         "nekosama/episode/episode.css",
-        "vendors/nprogress.css"
+        "vendors/nprogress.css",
+        "vendors/video-js.css",
+        "vendors/quality-selector.css"
       ]
     },
     {
-      "all_frames": true,
       "matches": [
-        "https://www.pstream.net/e/*"
+        "https://www.neko-sama.fr/anime/episode/*"
       ],
       "run_at": "document_start",
       "js": [
-        "vendors/browser-polyfill.js",
-        "hosts/pstream/pstream-overlay.js"
-      ]
-    },
-    {
-      "all_frames": true,
-      "matches": [
-        "https://embed.mystream.to/*"
-      ],
-      "run_at": "document_start",
-      "js": [
-        "vendors/browser-polyfill.js",
-        "hosts/mystream/mystream-overlay.js"
+        "nekosama/episode/hijack-js.js"
       ]
     }
   ],

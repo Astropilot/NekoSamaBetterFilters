@@ -1,3 +1,28 @@
 #quality-selector > svg.n {
   left: 15px !important;
 }
+
+#watch #display-player #un_episode {
+  position: absolute;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.video-js .vjs-custom-brand {
+  background-image: url("https://www.neko-sama.fr/images/neko-sama-logo.svg");
+}
+
+.video-js {
+  position: absolute !important;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+}
