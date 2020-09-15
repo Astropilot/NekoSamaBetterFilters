@@ -77,10 +77,10 @@
         "nekosama/episode/anime-episode.js"
       ],
       "css": [
-        "nekosama/episode/episode.css",
         "vendors/nprogress.css",
         "vendors/video-js.css",
-        "vendors/quality-selector.css"
+        "vendors/quality-selector.css",
+        "nekosama/episode/episode.css"
       ]
     },
     {

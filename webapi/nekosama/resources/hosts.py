@@ -15,8 +15,8 @@ class HostsResource(Resource):
         mystream_url = data.get('mystream_url', None)
 
         response = {
-            'pstream': [],
-            'mystream': []
+            'pstream': {},
+            'mystream': None
         }
 
         if pstream_url is None and mystream_url is None:
@@ -46,6 +46,6 @@ class HostsResource(Resource):
             result = ctx.eval(to_execute)
 
             url = re.search(r'https:\/\/.*\.mp4', result).group()
-            response['mystream'] = {'720': url}
+            response['mystream'] = url
 
         return response, 200
