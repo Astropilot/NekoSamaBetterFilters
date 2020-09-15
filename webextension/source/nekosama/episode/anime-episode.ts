@@ -4,6 +4,7 @@ import 'semantic-ui-transition/transition';
 import 'semantic-ui-dropdown/dropdown';
 import NProgress from 'nprogress';
 
+import './anime-episode.scss';
 import { optionsStorage } from '../../options-storage';
 import { initPlayer, VideoSource } from './player';
 

@@ -3,6 +3,7 @@ import * as browser from 'webextension-polyfill';
 import NProgress from 'nprogress';
 import $ from 'jquery';
 
+import './better-filters.scss';
 import '../../vendors/jquery.simplepagination';
 import 'jquery.loadtemplate';
 import 'semantic-ui-transition/transition';

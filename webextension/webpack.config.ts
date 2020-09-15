@@ -6,6 +6,7 @@ import { Configuration } from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: Configuration = {
   devtool: 'source-map',
@@ -41,6 +42,14 @@ const config: Configuration = {
         exclude: /node_modules/
       },
       {
+        test: /\.sc|ass$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
         test: require.resolve('jquery'),
         loader: 'expose-loader',
         options: {
@@ -65,20 +74,17 @@ const config: Configuration = {
           globOptions: {
             ignore: [
               '**/*.js',
-              '**/*.ts'
+              '**/*.ts',
+              '**/*.scss',
+              '**/*.css'
             ]
           }
         }
       ]
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: './webext-base-css/webext-base.css', to: './vendors/webext-base.css', context: 'node_modules' },
-        { from: './nprogress/nprogress.css', to: './vendors/nprogress.css', context: 'node_modules' },
-        { from: './video.js/dist/video-js.css', to: './vendors/video-js.css', context: 'node_modules' },
-        { from: './@silvermine/videojs-quality-selector/dist/css/quality-selector.css', to: './vendors/quality-selector.css', context: 'node_modules' }
-      ]
-    }),
+    new MiniCssExtractPlugin({
+			filename: '[name].css'
+		}),
     new SizePlugin({
       writeFile: false
     })
