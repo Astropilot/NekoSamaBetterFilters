@@ -1,12 +1,11 @@
 import $ from 'jquery';
-import videojs, { VideoJsPlayer } from 'video.js';
-require('@silvermine/videojs-quality-selector')(videojs);
-import 'videojs-hotkeys';
+import videojs from 'video.js';
 import 'semantic-ui-transition/transition';
 import 'semantic-ui-dropdown/dropdown';
 import NProgress from 'nprogress';
 
 import { optionsStorage } from '../../options-storage';
+import { initPlayer, VideoSource } from './player';
 
 interface Episode {
   time: string;
@@ -16,92 +15,7 @@ interface Episode {
   url_image: string;
 }
 
-interface VideoSource extends videojs.Tech.SourceObject {
-  label: string;
-  selected: boolean;
-};
-
-$('#display-player').html(`
-  <video id="video_player" class="video-js vjs-big-play-centered" controls controlslist="nodownload" preload="none" poster="" data-matomo-title="mqn9EBYnlZQO1e7">
-    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-  </video>
-`);
-
-class BrandButon extends videojs.getComponent('Component') {
-  constructor(player: VideoJsPlayer, options = {}) {
-    super(player, options);
-    this.addClass('vjs-custom-brand');
-    $(this.el()).html('<a href="https://www.neko-sama.fr" target="_blank" rel="noopener noreferrer"></a>');
-  }
-}
-
-class PreviousButton extends videojs.getComponent('Button') {
-  constructor(player: VideoJsPlayer, options = {}) {
-    super(player, options);
-    this.addClass('vjs-control-btn');
-    this.controlText('Episode précédent');
-    $('.vjs-icon-placeholder', this.el()).addClass('vjs-icon-previous-item');
-  }
-
-  handleClick() {
-    console.log('Previous!');
-    onChangeEpisode('previous');
-  }
-}
-
-class NextButton extends videojs.getComponent('Button') {
-  constructor(player: VideoJsPlayer, options = {}) {
-    super(player, options);
-    this.addClass('vjs-control-btn');
-    this.controlText('Episode suivant');
-    $('.vjs-icon-placeholder', this.el()).addClass('vjs-icon-next-item');
-  }
-
-  handleClick() {
-    console.log('Suivant!');
-    onChangeEpisode('next');
-  }
-}
-
-videojs.registerComponent('previousButton', PreviousButton);
-videojs.registerComponent('nextButton', NextButton);
-videojs.registerComponent("brandButton", BrandButon);
-
-const player = videojs('video_player', {
-  playbackRates: [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2],
-  controlBar: {
-    children: [
-      'previousButton',
-      'playToggle',
-      'nextButton',
-      'volumePanel',
-      'currentTimeDisplay',
-      'timeDivider',
-      'remainingTimeDisplay',
-      'progressControl',
-      'brandButton',
-      'playbackRateMenuButton',
-      'descriptionsButton',
-      'subsCapsButton',
-      'qualitySelector',
-      'fullscreenToggle',
-    ]
-  }
-});
-
-player.ready(async function () {
-  this.hotkeys({
-    volumeStep: 0.1,
-    seekStep: 5,
-    enableModifiersForNumbers: false
-  });
-
-  const { volume } = await optionsStorage.getAll();
-  player.volume(volume);
-});
-player.on('volumechange', function () {
-  optionsStorage.set({ volume: player.volume() });
-});
+const player: videojs.Player = initPlayer(onChangeEpisode);
 
 let episodes: Episode[];
 let currentEpisode = parseInt($('.details > .info > h2').text().match(/\d+/)!![0], 10) - 1;
@@ -111,14 +25,14 @@ function loadEpisode(hosts: any, autoplay: boolean) {
   $('.anime-video-options > .item.right').empty();
 
   if (currentEpisode > 0) {
-    (player.getChild('controlBar')!!.getChild('previousButton')!! as PreviousButton).enable();
+    (player.getChild('controlBar')!!.getChild('previousButton')!! as videojs.Button).enable();
   } else {
-    (player.getChild('controlBar')!!.getChild('previousButton')!! as PreviousButton).disable();
+    (player.getChild('controlBar')!!.getChild('previousButton')!! as videojs.Button).disable();
   }
   if (currentEpisode < episodes.length - 1) {
-    (player.getChild('controlBar')!!.getChild('nextButton')!! as NextButton).enable();
+    (player.getChild('controlBar')!!.getChild('nextButton')!! as videojs.Button).enable();
   } else {
-    (player.getChild('controlBar')!!.getChild('nextButton')!! as NextButton).disable();
+    (player.getChild('controlBar')!!.getChild('nextButton')!! as videojs.Button).disable();
   }
 
   if (currentEpisode > 0) {
@@ -138,7 +52,7 @@ function loadEpisode(hosts: any, autoplay: boolean) {
     `);
   }
 
-  $.getJSON('https://nekosama.codexus.fr/api/hosts', hosts, async (data: any) => {
+  $.getJSON('http://127.0.0.1:8000/api/hosts', hosts, async (data: any) => {
     const { streamResolution } = await optionsStorage.getAll();
     const prefHost = streamResolution.split('|')[1];
     const sources: VideoSource[] = [];

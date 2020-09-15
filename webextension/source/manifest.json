@@ -26,7 +26,8 @@
     "webRequest",
     "webRequestBlocking",
     "*://*.neko-sama.fr/*",
-    "*://nekosama.codexus.fr/*"
+    "*://nekosama.codexus.fr/*",
+    "*://127.0.0.1/*"
   ],
   "background": {
     "scripts": [
