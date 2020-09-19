@@ -4,7 +4,7 @@ from flask_cors import CORS
 from elasticsearch_dsl import connections
 from flask_mail import Mail
 
-from .populate import populate_animes
+from .commands.populate import populate_animes
 
 
 def create_app():

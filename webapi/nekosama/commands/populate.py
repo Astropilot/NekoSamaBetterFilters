@@ -9,8 +9,8 @@ from pygments import highlight
 from pygments.lexers.data import JsonLexer
 from pygments.formatters import HtmlFormatter
 
-from .models.anime import Anime
-from .mails import send_mail_html
+from ..models.anime import Anime
+from ..mails import send_mail_html
 
 
 GENRES = {

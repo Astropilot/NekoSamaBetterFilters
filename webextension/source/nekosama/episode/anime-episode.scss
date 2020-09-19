@@ -55,10 +55,6 @@
     display: block;
     padding-right: 0;
 }
-/*.vjs-big-play-centered .vjs-remaining-time {
-  margin-right: auto;
-  padding-left: 0;
-}*/
 .vjs-big-play-centered .vjs-control-bar {
     background-color: rgba(0, 0, 0, 0.2);
 }
@@ -144,9 +140,7 @@
   .vjs-progress-control:hover
   .vjs-progress-holder:focus
   .vjs-play-progress
-  .vjs-time-tooltip/*,
-.video-js .vjs-remaining-time,
-.vjs-remaining-time*/ {
+  .vjs-time-tooltip {
     display: none;
 }
 .video-js .vjs-progress-control:hover .vjs-progress-holder,
