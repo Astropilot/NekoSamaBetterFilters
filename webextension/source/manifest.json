@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Refined Neko-Sama.fr",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Une extension qui corrige et rend pleinement fonctionnelle la page d'animes de Neko-Sama.fr",
   "author": "Astropilot",
   "homepage_url": "https://github.com/Astropilot/NekoSamaBetterFilters",
@@ -26,8 +26,7 @@
     "webRequest",
     "webRequestBlocking",
     "*://*.neko-sama.fr/*",
-    "*://nekosama.codexus.fr/*",
-    "*://127.0.0.1/*"
+    "*://nekosama.codexus.fr/*"
   ],
   "background": {
     "scripts": [

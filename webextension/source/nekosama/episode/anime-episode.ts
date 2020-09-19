@@ -53,7 +53,7 @@ function loadEpisode(hosts: any, autoplay: boolean) {
     `);
   }
 
-  $.getJSON('http://127.0.0.1:8000/api/hosts', hosts, async (data: any) => {
+  $.getJSON('https://nekosama.codexus.fr/api/hosts', hosts, async (data: any) => {
     const { streamResolution } = await optionsStorage.getAll();
     const prefHost = streamResolution.split('|')[1];
     const sources: VideoSource[] = [];
