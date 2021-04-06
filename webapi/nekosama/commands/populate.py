@@ -40,6 +40,7 @@ def populate_animes():
         animes_deleted = 0
 
         r = requests.get(NEKO_ANIME_DB)
+        print(r.text)
         animes = r.json()
 
         anime_ids = [str(a['id']) for a in animes]
