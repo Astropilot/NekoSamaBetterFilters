@@ -2,7 +2,7 @@ import { nodeMatchSelector, nodeContentStartsWith, hijackDOM } from '../../utils
 
 const onNewNode = (addedNode: any) => {
   if (nodeMatchSelector(addedNode, 'script:not([src]):not([id])')) {
-    if (nodeContentStartsWith(addedNode, 'var myLazyLoad')) {
+    if (nodeContentStartsWith(addedNode, 'var MAX_ITEMS_PER_PAGE')) {
       addedNode.textContent = '';
       return true;
     }

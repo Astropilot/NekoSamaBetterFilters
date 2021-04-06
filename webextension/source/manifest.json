@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Refined Neko-Sama.fr",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Une extension qui corrige et rend pleinement fonctionnelle la page d'animes de Neko-Sama.fr",
   "author": "Astropilot",
   "homepage_url": "https://github.com/Astropilot/NekoSamaBetterFilters",
@@ -26,7 +26,9 @@
     "webRequest",
     "webRequestBlocking",
     "*://*.neko-sama.fr/*",
-    "*://nekosama.codexus.fr/*"
+    "*://nekosama.codexus.fr/*",
+    "*://*.pstream.net/*",
+    "*://*.gcdn.me/*"
   ],
   "background": {
     "scripts": [
@@ -37,8 +39,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.neko-sama.fr/anime",
-        "https://www.neko-sama.fr/anime?*"
+        "https://*.neko-sama.fr/anime",
+        "https://*.neko-sama.fr/anime?*"
       ],
       "run_at": "document_start",
       "js": [
@@ -47,8 +49,8 @@
     },
     {
       "matches": [
-        "https://www.neko-sama.fr/anime",
-        "https://www.neko-sama.fr/anime?*"
+        "https://*.neko-sama.fr/anime",
+        "https://*.neko-sama.fr/anime?*"
       ],
       "run_at": "document_idle",
       "js": [
@@ -60,7 +62,7 @@
     },
     {
       "matches": [
-        "https://www.neko-sama.fr/anime/info/*"
+        "https://*.neko-sama.fr/anime/info/*"
       ],
       "run_at": "document_idle",
       "js": [
@@ -69,7 +71,7 @@
     },
     {
       "matches": [
-        "https://www.neko-sama.fr/anime/episode/*"
+        "https://*.neko-sama.fr/anime/episode/*"
       ],
       "run_at": "document_idle",
       "js": [
@@ -81,7 +83,7 @@
     },
     {
       "matches": [
-        "https://www.neko-sama.fr/anime/episode/*"
+        "https://*.neko-sama.fr/anime/episode/*"
       ],
       "run_at": "document_start",
       "js": [

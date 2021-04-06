@@ -37,7 +37,7 @@ browser.webRequest.onBeforeRequest.addListener(
     const tabUrl = getUrlForTab(details.tabId);
 
     if (tabUrl?.match(/\/anime(\?.*|)$/)) {
-      if (details.url.startsWith('https://www.neko-sama.fr/js/nekosama-libs.js')) {
+      if (details.url.startsWith('https://neko-sama.fr/js/nekosama-libs.js')) {
         return {
           cancel: true
         };

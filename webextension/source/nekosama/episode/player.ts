@@ -21,7 +21,7 @@ export function initPlayer(onActionCallback: (action: string) => void): videojs.
     constructor(player: videojs.Player, options = {}) {
       super(player, options);
       this.addClass('vjs-custom-brand');
-      $(this.el()).html('<a href="https://www.neko-sama.fr" target="_blank" rel="noopener noreferrer"></a>');
+      $(this.el()).html('<a href="https://neko-sama.fr" target="_blank" rel="noopener noreferrer"></a>');
     }
   }
 

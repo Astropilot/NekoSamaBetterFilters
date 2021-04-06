@@ -12,30 +12,7 @@ from pygments.formatters import HtmlFormatter
 from ..models.anime import Anime
 from ..mails import send_mail_html
 
-
-GENRES = {
-    'Action',
-    'Adventure',
-    'Comedy',
-    'Drama',
-    'Ecchi',
-    'Fantasy',
-    'Hentai',
-    'Horror',
-    'Mahou Shoujo',
-    'Mecha',
-    'Music',
-    'Mystery',
-    'Psychological',
-    'Romance',
-    'Sci-Fi',
-    'Slice of Life',
-    'Sports',
-    'Supernatural',
-    'Thriller'
-}
-
-NEKO_ANIME_DB = 'https://www.neko-sama.fr/animes-search.json?gkeorgkeogkccc'
+NEKO_ANIME_DB = 'https://neko-sama.fr/animes-search-vostfr.json'
 
 MAIL_IMAGES = [
     {
@@ -74,7 +51,6 @@ def populate_animes():
         animes_added = len(animes) - animes_updated
 
         for a in animes:
-            genres = [x for x in a.keys() if x in GENRES]
             try:
                 start_date_year = int(a['start_date_year'])
             except ValueError:
@@ -93,7 +69,7 @@ def populate_animes():
                 score_anime=float(a['score']),
                 start_date_year=start_date_year,
                 nb_eps=a['nb_eps'],
-                genres=genres
+                genres=a['genres']
             ).save()
 
         search = Anime.search()
