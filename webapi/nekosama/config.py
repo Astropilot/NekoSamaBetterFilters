@@ -14,3 +14,7 @@ MAIL_DEFAULT_SENDER = ('NekoSama API', os.environ.get('MAIL_USERNAME'))
 MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
 MAIL_LOGS_RECIPIENT = [os.environ.get('MAIL_LOGS_RECIPIENT')]
+
+USE_PROXY = bool(strtobool(os.environ.get('USE_PROXY', 'False')))
+PROXY_TYPE = os.environ.get('PROXY_TYPE')
+PROXY_ADDRESS = os.environ.get('PROXY_ADDRESS')

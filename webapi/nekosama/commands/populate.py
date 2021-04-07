@@ -27,6 +27,8 @@ MAIL_IMAGES = [
     }
 ]
 
+headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0'}
+
 
 @click.command('populate-animes')
 @with_appcontext
@@ -39,8 +41,12 @@ def populate_animes():
         animes_updated = 0
         animes_deleted = 0
 
-        r = requests.get(NEKO_ANIME_DB)
-        print(r.text)
+        if current_app.config['USE_PROXY'] is True:
+            proxies = {current_app.config['PROXY_TYPE']: current_app.config['PROXY_ADDRESS']}
+        else:
+            proxies = None
+
+        r = requests.get(NEKO_ANIME_DB, headers=headers, proxies=proxies)
         animes = r.json()
 
         anime_ids = [str(a['id']) for a in animes]
