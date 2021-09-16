@@ -49,3 +49,54 @@ browser.webRequest.onBeforeRequest.addListener(
   { urls: ['*://*.neko-sama.fr/*'] },
   ['blocking']
 );
+
+browser.webRequest.onHeadersReceived.addListener(
+  details => {
+    let foundAllowOrigin = false;
+    let foundAllowHeaders = false;
+    details.responseHeaders?.map(item => {
+      if (item.name.toLowerCase() === 'access-control-allow-origin') {
+        item.value = '*';
+        foundAllowOrigin = true;
+      } else if (item.name.toLowerCase() === 'access-control-allow-headers') {
+        item.value = '*';
+        foundAllowHeaders = true;
+      }
+    });
+    if (!foundAllowHeaders)
+      details.responseHeaders?.push({name: 'Access-Control-Allow-Headers', value: '*'});
+
+    if (!foundAllowOrigin)
+      details.responseHeaders?.push({name: 'Access-Control-Allow-Origin', value: '*'});
+
+    return {responseHeaders: details.responseHeaders};
+  },
+  { urls: ['*://*.pstream.net/*', '*://*.gcdn.me/*']},
+  ['responseHeaders', 'blocking']
+);
+
+browser.webRequest.onBeforeSendHeaders.addListener(
+  details => {
+    if (!details.url.startsWith('https://www.pstream.net/e/')) {
+      let foundOrigin = false;
+      let foundReferer = false;
+      details.requestHeaders?.map(item => {
+        if (item.name.toLowerCase() === 'origin') {
+          item.value = 'https://www.pstream.net';
+          foundOrigin = true;
+        } else if (item.name.toLowerCase() === 'referer') {
+          item.value = 'https://www.pstream.net/e/lR7yP4kWB5GnVBJ';
+          foundReferer = true;
+        }
+      });
+      if (!foundOrigin)
+        details.requestHeaders?.push({ name: 'Origin', value: 'https://www.pstream.net' });
+
+      if (!foundReferer)
+        details.requestHeaders?.push({ name: 'Referer', value: 'https://www.pstream.net/e/lR7yP4kWB5GnVBJ' });
+    }
+    return { requestHeaders: details.requestHeaders };
+  },
+  { urls: ['*://*.pstream.net/*', '*://*.gcdn.me/*'] },
+  ['requestHeaders', 'blocking']
+);

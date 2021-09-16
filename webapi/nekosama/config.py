@@ -1,6 +1,8 @@
 import os
 from distutils.util import strtobool
 
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres@nekosamadb:5432/nekosama'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 ELASTICSEARCH_HOST = os.environ.get('ELASTICSEARCH_HOST', 'localhost')
 

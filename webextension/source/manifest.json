@@ -28,7 +28,8 @@
     "*://*.neko-sama.fr/*",
     "*://nekosama.codexus.fr/*",
     "*://*.pstream.net/*",
-    "*://*.gcdn.me/*"
+    "*://*.gcdn.me/*",
+    "*://localhost/*"
   ],
   "background": {
     "scripts": [

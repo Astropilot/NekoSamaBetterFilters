@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import videojs from 'video.js';
+import videojs, { VideoJsPlayer } from 'video.js';
 require('@silvermine/videojs-quality-selector')(videojs);
 import 'videojs-hotkeys';
 
@@ -10,15 +10,15 @@ export interface VideoSource extends videojs.Tech.SourceObject {
   selected: boolean;
 };
 
-export function initPlayer(onActionCallback: (action: string) => void): videojs.Player {
+export function initPlayer(onActionCallback: (action: 'previous' | 'next') => void): VideoJsPlayer {
   $('#display-player').html(`
-  <video id="video_player" class="video-js vjs-big-play-centered" controls controlslist="nodownload" preload="none" poster="" data-matomo-title="mqn9EBYnlZQO1e7">
-    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-  </video>
-`);
+    <video id="video_player" class="video-js vjs-big-play-centered" controls controlslist="nodownload" preload="none" poster="" data-matomo-title="mqn9EBYnlZQO1e7">
+      <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+    </video>
+  `);
 
   class BrandButon extends videojs.getComponent('Component') {
-    constructor(player: videojs.Player, options = {}) {
+    constructor(player: VideoJsPlayer, options = {}) {
       super(player, options);
       this.addClass('vjs-custom-brand');
       $(this.el()).html('<a href="https://neko-sama.fr" target="_blank" rel="noopener noreferrer"></a>');
@@ -26,27 +26,27 @@ export function initPlayer(onActionCallback: (action: string) => void): videojs.
   }
 
   class PreviousButton extends videojs.getComponent('Button') {
-    constructor(player: videojs.Player, options = {}) {
+    constructor(player: VideoJsPlayer, options = {}) {
       super(player, options);
       this.addClass('vjs-control-btn');
       this.controlText('Episode précédent');
       $('.vjs-icon-placeholder', this.el()).addClass('vjs-icon-previous-item');
     }
 
-    handleClick() {
+    override handleClick() {
       onActionCallback('previous');
     }
   }
 
   class NextButton extends videojs.getComponent('Button') {
-    constructor(player: videojs.Player, options = {}) {
+    constructor(player: VideoJsPlayer, options = {}) {
       super(player, options);
       this.addClass('vjs-control-btn');
       this.controlText('Episode suivant');
       $('.vjs-icon-placeholder', this.el()).addClass('vjs-icon-next-item');
     }
 
-    handleClick() {
+    override handleClick() {
       onActionCallback('next');
     }
   }
@@ -55,7 +55,7 @@ export function initPlayer(onActionCallback: (action: string) => void): videojs.
   videojs.registerComponent('nextButton', NextButton);
   videojs.registerComponent("brandButton", BrandButon);
 
-  const player: videojs.Player = videojs('video_player', {
+  const player: VideoJsPlayer = videojs('video_player', {
     playbackRates: [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2],
     controlBar: {
       children: [
@@ -74,6 +74,14 @@ export function initPlayer(onActionCallback: (action: string) => void): videojs.
         'qualitySelector',
         'fullscreenToggle',
       ]
+    },
+    html5: {
+      nativeTextTracks: false,
+      nativeAudioTracks: false,
+      nativeVideoTracks: false,
+      vhs: {
+        overrideNative: true
+      },
     }
   });
 

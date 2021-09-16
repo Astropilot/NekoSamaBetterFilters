@@ -68,6 +68,7 @@ def populate_animes():
                 title=a['title'],
                 title_english=a['title_english'],
                 title_romanji=a['title_romanji'],
+                title_french=a['title_french'],
                 others=a['others'],
                 type=a['type'],
                 status=int(a['status']),

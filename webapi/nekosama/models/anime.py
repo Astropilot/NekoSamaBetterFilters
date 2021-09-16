@@ -5,6 +5,7 @@ class Anime(Document):
     title = Text(fields={'keyword': Keyword()})
     title_english = Text()
     title_romanji = Text()
+    title_french = Text()
     others = Text()
     type = Keyword()
     status = Keyword()
@@ -25,6 +26,7 @@ def format_anime(anime):
         'title': anime.title,
         'title_english': anime.title_english,
         'title_romanji': anime.title_romanji,
+        'title_french': anime.title_french,
         'others': anime.others,
         'type': anime.type,
         'status': anime.status,

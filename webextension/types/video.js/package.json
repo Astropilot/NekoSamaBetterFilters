@@ -1,0 +1,61 @@
+{
+  "_from": "@types/video.js@7.3.15",
+  "_inBundle": false,
+  "_integrity": "sha512-BrwSex/PFQENARdxWJVlYUwqu0HbUhM7Zrk8DnrWhUO4Q1BoNK93KNu4OlZOTOlVVS99nX5BiOhB8AGpI6jcQA==",
+  "_location": "/@types/video.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@types/video.js@7.3.15",
+    "name": "@types/video.js",
+    "escapedName": "@types%2fvideo.js",
+    "scope": "@types",
+    "rawSpec": "7.3.15",
+    "saveSpec": null,
+    "fetchSpec": "7.3.15"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/@types/video.js/-/video.js-7.3.15.tgz",
+  "_shasum": "42ff1bf598384ae5966bf6f64560197357e99033",
+  "_spec": "@types/video.js@7.3.15",
+  "_where": "C:\\Users\\Admin\\Documents\\NekoSamaBetterFilters\\webextension",
+  "bugs": {
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+  },
+  "contributors": [
+    "Vincent Bortone (https://github.com/vbortone)",
+    "Simon Clériot (https://github.com/scleriot)",
+    "Sean Bennett (https://github.com/SWBennett06)",
+    "Christoph Wagner (https://github.com/IgelCampus)",
+    "Gio Freitas (https://github.com/giofreitas)",
+    "Grzegorz Błaszczyk (https://github.com/gjanblaszczyk)",
+    "Stéphane Roucheray (https://github.com/sroucheray)",
+    "Adam Eisenreich (https://github.com/AkxeOne)",
+    "Mei Qingguang (https://github.com/meikidd)",
+    "Joe Flateau (https://github.com/joeflateau)",
+    "KuanYu Chu (https://github.com/ckybonist)"
+  ],
+  "dependencies": {},
+  "deprecated": false,
+  "description": "TypeScript definitions for Video.js",
+  "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@types/video.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+    "directory": "types/video.js"
+  },
+  "scripts": {},
+  "typeScriptVersion": "3.4",
+  "types": "index.d.ts",
+  "typesPublisherContentHash": "771ff3f5214e7e5a39414cad85519c6144ae6320aa6cdeb01cbdef27f812317a",
+  "version": "7.3.15",
+  "keywords": [],
+  "author": ""
+}

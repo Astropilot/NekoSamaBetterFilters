@@ -1,4 +1,3 @@
-import LazyLoad, { ILazyLoadInstance } from 'vanilla-lazyload';
 import * as browser from 'webextension-polyfill';
 import NProgress from 'nprogress';
 import $ from 'jquery';
@@ -44,7 +43,6 @@ const noResultPage = `
 `;
 
 let filters = new URLSearchParams(window.location.search);
-let myLazyLoad: ILazyLoadInstance;
 
 function updateFilter(filter: string, value: string | string[]) {
   if (value.length === 0) {
@@ -67,7 +65,6 @@ function fetchAnimes() {
       isFile: true,
       complete: () => {
         NProgress.done();
-        myLazyLoad.update();
       }
     });
 
@@ -115,7 +112,6 @@ function fetchAnimes() {
 }
 
 $(() => {
-  myLazyLoad = new LazyLoad();
   // Ajout des filtres supplémentaires
   $('#sort-dropdown').attr('data-filter', 'sort');
   $('#sort-dropdown > .menu').append(yearSortingMenu);

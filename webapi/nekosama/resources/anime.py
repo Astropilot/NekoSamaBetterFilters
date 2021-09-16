@@ -80,7 +80,7 @@ class AnimeListResource(Resource):
                 query=search,
                 type='bool_prefix',
                 operator='AND',
-                fields=['title', 'title_english', 'title_romanji', 'others']
+                fields=['title', 'title_english', 'title_romanji', 'title_french', 'others']
             )
 
         if type is not None:

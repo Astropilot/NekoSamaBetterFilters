@@ -18,6 +18,7 @@ const config: Configuration = {
   entry: Object.fromEntries([
     'nekosama/anime/anime-info',
     'nekosama/episode/anime-episode',
+    'nekosama/episode/sprite-thumbnails',
     'nekosama/episode/hijack-js',
     'nekosama/search/better-filters',
     'nekosama/search/hijack-js',

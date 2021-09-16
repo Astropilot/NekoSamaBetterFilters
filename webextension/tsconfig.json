@@ -1,9 +1,15 @@
 {
-  "extends": "@sindresorhus/tsconfig",
+  "extends": "@sindresorhus/tsconfig/tsconfig.json",
   "compilerOptions": {
     "target": "es2019",
     "declaration": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "CommonJS",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ]
   },
   "include": ["source", "webpack.config.ts"]
 }
