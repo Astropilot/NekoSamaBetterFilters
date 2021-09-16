@@ -35,7 +35,7 @@ class LastEpisodeResource(Resource):
         today_episodes = []
 
         for episode in episode_list:
-            if 'heure' in episode['time']:
+            if 'heure' in episode['time'] or 'minute' in episode['time'] or 'seconde' in episode['time']:
                 today_episodes.append(episode)
 
         return today_episodes, 200
